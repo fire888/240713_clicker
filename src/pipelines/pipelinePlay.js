@@ -6,11 +6,16 @@ const completePlay = () => {
 export const pipelinePlay = async root => {
     const {
         studio,
-        controlsOrbit,
-        controlsPointer,
         ticker,
         boxTest,
+        floor,
+        systemCircles,
+
     } = root
+
+    for (let i = 0; i < systemCircles.items.length; ++i) {
+        studio.setObjectToPointerIntercept(systemCircles.items[i])
+    }
 
     //controlsPointer.disable()
     //controlsOrbit.enable()

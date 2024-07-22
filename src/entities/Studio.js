@@ -6,7 +6,6 @@ export class Studio {
     init () {
         this.containerDom = document.getElementById('container-game')
 
-
         const w = window.innerWidth
         const h = window.innerHeight
         this._frustumSize = 500
@@ -20,9 +19,6 @@ export class Studio {
             1,
             1000
         );
-        //this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, .001, 200)
-        //this.camera.position.set(1, 2, 3)
-        //this.camera.lookAt(0, 1, 0)
         this.camera.position.set(0, 0, 50)
         this.camera.lookAt(0, 0, 0)
 
@@ -36,26 +32,44 @@ export class Studio {
 
         this.dirLight = new THREE.DirectionalLight( 0xffffff, 3 )
         this.dirLight.position.set(-3, 10, 2)
-        // this.dirLight.castShadow = true
-        // this.dirLight.shadow.camera.top = 2
-        // this.dirLight.shadow.camera.bottom = -2
-        // this.dirLight.shadow.camera.left = -2
-        // this.dirLight.shadow.camera.right = 2
-        // this.dirLight.shadow.camera.near = 0.1
-        // this.dirLight.shadow.camera.far = 40
         this.scene.add(this.dirLight)
 
         this.renderer = new THREE.WebGLRenderer({ antialias: true })
         this.renderer.setPixelRatio(window.devicePixelRatio)
         this.renderer.setSize(window.innerWidth, window.innerHeight)
-        //this.renderer.shadowMap.enabled = true
         this.containerDom.appendChild(this.renderer.domElement)
+
+        this.raycaster = new THREE.Raycaster()
+        this.raycaster.near = 1
+        this.raycaster.far = 500
+        this.pointer = new THREE.Vector2()
+        this.interceptObjects = []
+
+        const onPointerMove = e => {
+            // calculate pointer position in normalized device coordinates
+            // (-1 to +1) for both components
+            this.pointer.x = e.clientX / window.innerWidth * 2 - 1
+            this.pointer.y = -e.clientY / window.innerHeight * 2 + 1
+        }
+        window.addEventListener('pointermove', onPointerMove)
+
+        const onPointerDown = () => {
+            this.raycaster.setFromCamera(this.pointer, this.camera)
+            const intersects = this.raycaster.intersectObjects(this.interceptObjects)
+            console.log(this.pointer, intersects)
+            for ( let i = 0; i < intersects.length; i ++ ) {
+                intersects[i].object.material.color.set(0x00ff00)
+            }
+        }
+        window.addEventListener('pointerdown', onPointerDown)
+
 
         window.addEventListener( 'resize', this.onWindowResize.bind(this))
         this.onWindowResize()
     }
 
     render () {
+
         this.renderer.render(this.scene, this.camera)
     }
 
@@ -64,16 +78,21 @@ export class Studio {
         const h = window.innerHeight
         const aspect = w / h
 
-        this.camera.left = - 0.5 * this._frustumSize * aspect / 2
-        this.camera.right = 0.5 * this._frustumSize * aspect / 2
+        this.camera.left = -this._frustumSize * aspect / 2
+        this.camera.right = this._frustumSize * aspect / 2
         this.camera.top = this._frustumSize / 2
-        this.camera.bottom = - this._frustumSize / 2
+        this.camera.bottom = -this._frustumSize / 2
         this.camera.updateProjectionMatrix()
+        this.camera.updateMatrixWorld()
 
         this.renderer.setSize(window.innerWidth, window.innerHeight)
     }
 
     add (m) {
         this.scene.add(m)
+    }
+
+    setObjectToPointerIntercept (m) {
+        this.interceptObjects.push(m)
     }
 }
