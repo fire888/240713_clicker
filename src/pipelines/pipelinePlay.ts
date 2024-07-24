@@ -1,19 +1,16 @@
 // https://drive.google.com/drive/folders/1oCZhaICbvunn4dyJHrRJmWqF5xZzUyll
+import { Root } from '../types'
 
 
-const completePlay = () => {
-    return new Promise(res => {})
+const completePlay = (): Promise<void> => {
+    return new Promise<void>(res => { res() })
 }
 
 
-export const pipelinePlay = async root => {
+export const pipelinePlay = async (root: Root) => {
     const {
         studio,
-        ticker,
-        boxTest,
-        floor,
         systemCircles,
-
     } = root
 
     for (let i = 0; i < systemCircles.items.length; ++i) {

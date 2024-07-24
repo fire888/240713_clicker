@@ -1,9 +1,10 @@
-export const pipelineInit = async root => {
+import { Root } from '../types'
+
+export const pipelineInit = async (root: Root) => {
     const {
         studio,
         ticker,
         boxTest,
-        floor,
         systemCircles,
         loaderAssets,
         assets,

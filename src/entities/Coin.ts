@@ -1,8 +1,11 @@
 import * as THREE from "three";
 
 export class Coin {
-    constructor(root) {
-        //const g = new THREE.CylinderGeometry(30, 30, 2)
+    m: THREE.Mesh
+    readonly _xRotSpeed: number = (Math.random() - .5) * 0.1
+    readonly _zRotSpeed: number = (Math.random() - .5) * 0.1
+
+    constructor(root: any) {
         const g = root.assets.coinModel.scene.children[0].geometry
         const m = new THREE.MeshPhongMaterial({ color: 0xff0000 })
 
@@ -10,13 +13,10 @@ export class Coin {
         this.m.scale.set(30, 7, 30)
 
         this.m.rotation.x = Math.PI / 2
-
-        this._yRotSpeed = (Math.random() - .5) * 0.1
-        this._zRotSpeed = (Math.random() - .5) * 0.1
     }
 
     update () {
-        this.m.rotation.x += this._yRotSpeed
+        this.m.rotation.x += this._xRotSpeed
         this.m.rotation.z += this._zRotSpeed
     }
 }

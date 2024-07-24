@@ -13,12 +13,17 @@
     "three": "^0.165.0"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^11.0.0",
+    "@types/three": "^0.166.0",
     "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.5.3",
     "mini-css-extract-plugin": "^2.7.6",
+    "typescript": "^5.5.4",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "^4.15.1",
+    "ts-loader": "^9.5.1",
+    "ts-watch": "^1.0.8",
+    "tsc-watch": "^6.2.0",
+    "tsconfig-paths-webpack-plugin": "^4.1.0"
   }
 }

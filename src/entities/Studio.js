@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 
 export class Studio {
-    constructor(props) {}
+    constructor () {}
 
     init () {
         this.containerDom = document.getElementById('container-game')

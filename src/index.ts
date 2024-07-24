@@ -7,8 +7,12 @@ import {documentClickOnce} from "./helpers/clickHelpers";
 import { SystemCircles } from "./systems/SystemCircles"
 import { LoaderAssets } from './helpers/Loader'
 
+import { Root } from './types'
+
+
+
 window.addEventListener("DOMContentLoaded", async () => {
-    const root = {
+    const root: Root = {
         assets: {},
         ticker: new Ticker(),
         studio: new Studio(),
@@ -18,6 +22,5 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
 
     await pipelineInit(root)
-    // await documentClickOnce()
     await pipelinePlay(root)
 })
