@@ -5,6 +5,8 @@ export const pipelineInit = async root => {
         boxTest,
         floor,
         systemCircles,
+        loaderAssets,
+        assets,
     } = root
 
     ticker.start()
@@ -15,7 +17,11 @@ export const pipelineInit = async root => {
     boxTest.init()
     studio.add(boxTest.mesh)
 
-    systemCircles.init()
+    loaderAssets.init()
+    const coinModel = await loaderAssets.loadAssets()
+    assets.coinModel = coinModel
+
+    systemCircles.init(root)
     studio.add(systemCircles.group)
     ticker.on(systemCircles.update.bind(systemCircles))
 }
