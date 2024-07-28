@@ -17,7 +17,7 @@ export class Studio {
             this._frustumSize / 2,
             this._frustumSize / - 2,
             1,
-            1000
+            5000
         );
         this.camera.position.set(0, 0, 50)
         this.camera.lookAt(0, 0, 0)
@@ -41,7 +41,7 @@ export class Studio {
 
         this.raycaster = new THREE.Raycaster()
         this.raycaster.near = 1
-        this.raycaster.far = 500
+        this.raycaster.far = 5000
         this.pointer = new THREE.Vector2()
         this.interceptObjects = []
 

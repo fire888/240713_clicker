@@ -7,7 +7,20 @@ export class Coin {
 
     constructor(root: any) {
         const g = root.assets.coinModel.scene.children[0].geometry
-        const m = new THREE.MeshPhongMaterial({ color: 0xff0000 })
+        const m = new THREE.MeshPhongMaterial({ 
+            //color: 0xbbbbbb, 
+            //map: root.assets.textureNoise, 
+            color: 0xbbbbbb,
+            //emissive: 0x7795d3,
+            specular: 0xffffff,
+            shininess: 100,
+            //envMap: envMap,
+            bumpMap:  root.assets.textureNoise,
+            bumpScale: 1,
+            reflectivity: 1,
+            //transparent: true,
+            //opacity: 0.8,
+        })
 
         this.m = new THREE.Mesh(g, m)
         this.m.scale.set(30, 7, 30)
