@@ -1,5 +1,5 @@
 {
-  "include": ["./src", "src/**/*", "./src/index.d.ts"],
+  "include": ["./src", "./src/**/*", "./src/index.d.ts"],
   "compilerOptions": {
     "baseUrl": "./src",
     "sourceMap": true,
