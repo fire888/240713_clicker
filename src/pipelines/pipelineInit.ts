@@ -27,6 +27,6 @@ export const pipelineInit = async (root: Root) => {
     ticker.on(systemCircles.update.bind(systemCircles))
 
     await widgetTopCount.init(root)
-    
+    studio.add(widgetTopCount.mesh)
 
 }
