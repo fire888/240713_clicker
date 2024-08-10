@@ -1,5 +1,5 @@
 // https://drive.google.com/drive/folders/1oCZhaICbvunn4dyJHrRJmWqF5xZzUyll
-import { Root } from '../index'
+import { Root } from './root'
 
 
 const completePlay = (): Promise<void> => {

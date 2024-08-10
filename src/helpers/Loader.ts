@@ -2,10 +2,12 @@ import * as THREE from 'three'
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import coinModel from "../assets/coin1.glb";
 import noise from "../assets/noise.png"
+import numbers from "../assets/numbers.jpg"
 
 export type Assets = {
     coinModel: any,
     textureNoise: any,
+    textureNumbersMask: any,
 }
 
 export class LoaderAssets {
@@ -23,9 +25,12 @@ export class LoaderAssets {
         return new Promise(res => {
             this._gltfLoader.load(coinModel, m => {
                 this._textureLoader.load(noise, t => {
-                    res({
-                        coinModel: m,
-                        textureNoise: t
+                    this._textureLoader.load(numbers,  e => {
+                        res({
+                            coinModel: m,
+                            textureNoise: t,
+                            textureNumbersMask: e,
+                        })
                     })
                 })
             })

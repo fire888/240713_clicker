@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-import { Root } from "index"
+import { Root } from "../pipelines/root"
 
 export class WidgetTopCount {
     mesh: THREE.Object3D

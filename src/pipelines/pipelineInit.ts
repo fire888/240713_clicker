@@ -1,4 +1,4 @@
-import { Root } from '../index'
+import { Root } from './root'
 
 export const pipelineInit = async (root: Root) => {
     const {
@@ -8,6 +8,7 @@ export const pipelineInit = async (root: Root) => {
         systemCircles,
         loaderAssets,
         widgetTopCount,
+        systemNumbers,
     } = root
 
     ticker.start()
@@ -29,4 +30,5 @@ export const pipelineInit = async (root: Root) => {
     await widgetTopCount.init(root)
     studio.add(widgetTopCount.mesh)
 
+    await systemNumbers.init(root)
 }
