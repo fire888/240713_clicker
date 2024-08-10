@@ -7,7 +7,7 @@ import { pipelinePlay } from "./pipelinePlay"
 import {documentClickOnce} from "../helpers/clickHelpers";
 import { SystemCircles } from "../systems/SystemCircles"
 import { LoaderAssets, Assets } from '../helpers/Loader'
-import { SystemNumbers } from "../systems/SystemNumbers"
+import { WidgetNumbers } from "../entities/WidgetNumbers"
 
 
 export type Root = {
@@ -18,7 +18,6 @@ export type Root = {
     systemCircles: SystemCircles,
     loaderAssets: LoaderAssets,
     widgetTopCount: WidgetTopCount,
-    systemNumbers: SystemNumbers,
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
@@ -30,7 +29,6 @@ window.addEventListener("DOMContentLoaded", async () => {
         widgetTopCount: new WidgetTopCount(),
         systemCircles: new SystemCircles(),
         loaderAssets: new LoaderAssets(),
-        systemNumbers: new SystemNumbers(),
     }
 
     await pipelineInit(root)
