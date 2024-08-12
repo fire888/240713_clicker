@@ -7,7 +7,8 @@ export const pipelineInit = async (root: Root) => {
         boxTest,
         systemCircles,
         loaderAssets,
-        widgetTopCount
+        widgetTopCount,
+        widgetTimer,
     } = root
 
     ticker.start()
@@ -29,4 +30,9 @@ export const pipelineInit = async (root: Root) => {
     await widgetTopCount.init(root)
     studio.add(widgetTopCount.mesh)
     widgetTopCount.mesh.position.y = 210
+
+    await widgetTimer.init(root)
+    studio.add(widgetTimer.mesh)
+    widgetTimer.mesh.position.y = -210
+    widgetTimer.mesh.position.x = -100
 }
