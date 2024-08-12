@@ -8,6 +8,8 @@ import {documentClickOnce} from "../helpers/clickHelpers";
 import { SystemCircles } from "../systems/SystemCircles"
 import { LoaderAssets, Assets } from '../helpers/Loader'
 import { WidgetTimer } from "entities/WidgetTimer"
+import { WidgetFreeze } from "entities/WidgetFreeze"
+import { WidgetGolden } from "entities/WidgetGolden"
 
 
 export type Root = {
@@ -19,6 +21,8 @@ export type Root = {
     loaderAssets: LoaderAssets,
     widgetTopCount: WidgetTopCount,
     widgetTimer: WidgetTimer,
+    widgetFreeze: WidgetFreeze,
+    widgetGolden: WidgetGolden,
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
@@ -30,7 +34,9 @@ window.addEventListener("DOMContentLoaded", async () => {
         widgetTopCount: new WidgetTopCount(),
         systemCircles: new SystemCircles(),
         loaderAssets: new LoaderAssets(),
-        widgetTimer: new WidgetTimer()
+        widgetTimer: new WidgetTimer(),
+        widgetFreeze: new WidgetFreeze(),
+        widgetGolden: new WidgetGolden(),
     }
 
     await pipelineInit(root)

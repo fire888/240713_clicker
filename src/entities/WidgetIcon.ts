@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { Root } from "pipelines/root"
 
-type KeysToShow = "hand" | "lightInArrow" | "light" | "halfCircle" | "empty"
+type KeysToShow = "hand" | "lightInArrow" | "light" | "halfCircle" | "empty" | "frz" | "yellow" | 'boom'
 
 export class WidgetIcon {
     mesh: THREE.Mesh 
@@ -29,9 +29,12 @@ export class WidgetIcon {
             'light': 2,
             'halfCircle': 3,
             'empty': 4,
+            'frz': 5,
+            'yellow': 6,
+            'boom': 7,
         }
 
-        const step = 1 / 5
+        const step = 1 / 8
         const i = step * offset[key]
 
         const uv = [

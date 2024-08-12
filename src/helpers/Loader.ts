@@ -4,7 +4,7 @@ import coinModel from "../assets/coin1.glb";
 import noise from "../assets/noise.png"
 import numbers from "../assets/numbers.jpg"
 import iconsMap from "../assets/icons_map.jpg"
-import iconsMask from "../assets/icons_mask.jpg"
+import iconsMask from "../assets/icons_msk.jpg"
 
 
 export type Assets = {

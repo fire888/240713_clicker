@@ -24,7 +24,7 @@ export class WidgetTimer {
 
         this._icon = new WidgetIcon()
         await this._icon.init(root)
-        this._icon.show('hand')
+        this._icon.show('light')
         this._icon.mesh.position.y = 50
         this.mesh.add(this._icon.mesh)
 
