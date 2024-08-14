@@ -41,7 +41,7 @@ void main()	{
 
 
 
-export class WidgetBar {
+export class UiBar {
     mesh: THREE.Object3D
     constructor () {
 

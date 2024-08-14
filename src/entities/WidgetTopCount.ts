@@ -1,12 +1,12 @@
 import * as THREE from 'three'
 
 import { Root } from "../pipelines/root"
-import { WidgetNumbers  } from './WidgetNumbers'
+import { UiNumbers  } from './UiNumbers'
 
 export class WidgetTopCount {
     mesh: THREE.Object3D
     coin: THREE.Mesh
-    _widgetNumbers: WidgetNumbers
+    _widgetNumbers: UiNumbers
 
     constructor() {}
 
@@ -24,7 +24,7 @@ export class WidgetTopCount {
 
         this.mesh.add(this.coin)
 
-        this._widgetNumbers = new WidgetNumbers()
+        this._widgetNumbers = new UiNumbers()
         await this._widgetNumbers.init(root)
         this.mesh.add(this._widgetNumbers.mesh)
         this._widgetNumbers.show('12340986,+')

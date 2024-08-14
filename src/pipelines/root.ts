@@ -10,6 +10,8 @@ import { LoaderAssets, Assets } from '../helpers/Loader'
 import { WidgetTimer } from "entities/WidgetTimer"
 import { WidgetFreeze } from "entities/WidgetFreeze"
 import { WidgetGolden } from "entities/WidgetGolden"
+import { WidgetBomb } from "entities/WidgetBomb"
+import { WidgetAddEnergy } from "entities/WidgetAddEnergy"
 
 
 export type Root = {
@@ -23,6 +25,8 @@ export type Root = {
     widgetTimer: WidgetTimer,
     widgetFreeze: WidgetFreeze,
     widgetGolden: WidgetGolden,
+    widgetBomb: WidgetBomb,
+    widgetAddEnergy: WidgetAddEnergy,
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
@@ -37,6 +41,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         widgetTimer: new WidgetTimer(),
         widgetFreeze: new WidgetFreeze(),
         widgetGolden: new WidgetGolden(),
+        widgetBomb: new WidgetBomb(),
+        widgetAddEnergy: new WidgetAddEnergy(),
     }
 
     await pipelineInit(root)

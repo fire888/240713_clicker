@@ -5,6 +5,7 @@ import noise from "../assets/noise.png"
 import numbers from "../assets/numbers.jpg"
 import iconsMap from "../assets/icons_map.jpg"
 import iconsMask from "../assets/icons_msk.jpg"
+import popupMapMask from "../assets/popupmapmask.jpg"
 
 
 export type Assets = {
@@ -14,6 +15,7 @@ export type Assets = {
     textureNumbersMask: any,
     iconsMask: any,
     iconsMap: any,
+    popupMapPask: any,
 }
 
 export class LoaderAssets {
@@ -34,6 +36,7 @@ export class LoaderAssets {
             textureNumbersMask: { src: numbers, result: null },
             iconsMask: { src: iconsMask, result: null },
             iconsMap: { src: iconsMap, result: null },
+            popupMapPask: { src: popupMapMask, result: null },
         }
 
         return new Promise(resolve => {
@@ -61,6 +64,7 @@ export class LoaderAssets {
                 load('textureNumbersMask', numbers), 
                 load('iconsMask', iconsMask), 
                 load('iconsMap', iconsMap), 
+                load('popupMapMask', popupMapMask), 
             ]).then(() => {
                 resolve(assets)
             }, () => {

@@ -1,24 +1,24 @@
 import { Root } from "pipelines/root";
-import { WidgetNumbers } from "./WidgetNumbers"
-import { WidgetIcon } from "./WidgetIcon";
+import { UiNumbers } from "./UiNumbers"
+import { UiIcon } from "./UiIcon";
 import * as THREE from 'three'
 
 export class WidgetFreeze {
     mesh: THREE.Object3D
-    _val: WidgetNumbers
-    _icon: WidgetIcon
+    _val: UiNumbers
+    _icon: UiIcon
     constructor ()  {}
 
     async init (root: Root) {
         this.mesh = new THREE.Object3D()
 
-        this._val = new WidgetNumbers()
+        this._val = new UiNumbers()
         await this._val.init(root)
         this._val.show('100')
         this._val.mesh.position.y = -10
         this.mesh.add(this._val.mesh)
 
-        this._icon = new WidgetIcon()
+        this._icon = new UiIcon()
         await this._icon.init(root)
         this._icon.show('frz')
         this._icon.mesh.position.y = 50

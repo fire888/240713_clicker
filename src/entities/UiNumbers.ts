@@ -2,17 +2,16 @@ import * as THREE from 'three'
 import { Root } from '../pipelines/root'
 
 
-export class WidgetNumbers {
+export class UiNumbers {
     static _geoms: any
     private _mat: THREE.MeshBasicMaterial
     private _meshes: THREE.Mesh[]
     mesh: THREE.Object3D
 
-
     constructor () {}
 
     async init (root: Root) {    
-        if (!WidgetNumbers._geoms) {
+        if (!UiNumbers._geoms) {
             const verticies = [
                 0, 0, 0,
                 10, 0, 0,
@@ -24,7 +23,7 @@ export class WidgetNumbers {
             const vF32 = new Float32Array(verticies)
     
             const keys = ['a0', 'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a,' , 'a+']
-            WidgetNumbers._geoms = {}
+            UiNumbers._geoms = {}
     
             const stepX = 1 / keys.length
             for (let i = 0; i < keys.length; ++i) {
@@ -40,7 +39,7 @@ export class WidgetNumbers {
                 const geom = new THREE.BufferGeometry()
                 geom.setAttribute('position', new THREE.BufferAttribute(vF32, 3))
                 geom.setAttribute('uv', new THREE.BufferAttribute(arrUV, 3))
-                WidgetNumbers._geoms[keys[i]] = geom
+                UiNumbers._geoms[keys[i]] = geom
             }
         }
 
@@ -63,9 +62,8 @@ export class WidgetNumbers {
         this._meshes = []
 
         for (let i = 0; i < val.length; ++i) {
-            console.log(val[i])
             const m = new THREE.Mesh(
-                WidgetNumbers._geoms['a'+ val[i]],
+                UiNumbers._geoms['a'+ val[i]],
                 this._mat
             )
             this._meshes.push(m)

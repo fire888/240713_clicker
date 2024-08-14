@@ -4,13 +4,14 @@ export const pipelineInit = async (root: Root) => {
     const {
         studio,
         ticker,
-        boxTest,
+        // boxTest,
         systemCircles,
         loaderAssets,
         widgetTopCount,
         widgetTimer,
         widgetFreeze,
         widgetGolden,
+        widgetBomb,
     } = root
 
     ticker.start()
@@ -18,8 +19,8 @@ export const pipelineInit = async (root: Root) => {
     studio.init()
     ticker.on(studio.render.bind(studio))
 
-    boxTest.init()
-    studio.add(boxTest.mesh)
+    //boxTest.init()
+    //studio.add(boxTest.mesh)
 
     loaderAssets.init()
     const assetsResult = await loaderAssets.loadAssets()
@@ -47,4 +48,9 @@ export const pipelineInit = async (root: Root) => {
     studio.add(widgetGolden.mesh)
     widgetGolden.mesh.position.x = 50
     widgetGolden.mesh.position.y = -210
+
+    await widgetBomb.init(root)
+    studio.add(widgetBomb.mesh)
+    widgetBomb.mesh.position.x = 100
+    widgetBomb.mesh.position.y = -210
 }

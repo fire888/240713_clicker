@@ -3,7 +3,7 @@ import { Root } from "pipelines/root"
 
 type KeysToShow = "hand" | "lightInArrow" | "light" | "halfCircle" | "empty" | "frz" | "yellow" | 'boom'
 
-export class WidgetIcon {
+export class UiIcon {
     mesh: THREE.Mesh 
     root: Root
     constructor () {}

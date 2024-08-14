@@ -3,7 +3,7 @@ import { UiNumbers } from "./UiNumbers"
 import { UiIcon } from "./UiIcon";
 import * as THREE from 'three'
 
-export class WidgetGolden {
+export class WidgetAddEnergy {
     mesh: THREE.Object3D
     _val: UiNumbers
     _icon: UiIcon
@@ -23,5 +23,7 @@ export class WidgetGolden {
         this._icon.show('yellow')
         this._icon.mesh.position.y = 50
         this.mesh.add(this._icon.mesh)
+
+        console.log(root.assets.popupMapPask)
     }
 }

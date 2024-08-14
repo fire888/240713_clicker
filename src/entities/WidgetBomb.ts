@@ -3,7 +3,7 @@ import { UiNumbers } from "./UiNumbers"
 import { UiIcon } from "./UiIcon";
 import * as THREE from 'three'
 
-export class WidgetGolden {
+export class WidgetBomb {
     mesh: THREE.Object3D
     _val: UiNumbers
     _icon: UiIcon
@@ -20,7 +20,7 @@ export class WidgetGolden {
 
         this._icon = new UiIcon()
         await this._icon.init(root)
-        this._icon.show('yellow')
+        this._icon.show('frz')
         this._icon.mesh.position.y = 50
         this.mesh.add(this._icon.mesh)
     }
