@@ -12,6 +12,7 @@ export const pipelineInit = async (root: Root) => {
         widgetFreeze,
         widgetGolden,
         widgetBomb,
+        widgetAddEnergy,
     } = root
 
     ticker.start()
@@ -38,6 +39,11 @@ export const pipelineInit = async (root: Root) => {
     studio.add(widgetTimer.mesh)
     widgetTimer.mesh.position.y = -210
     widgetTimer.mesh.position.x = -200
+
+    await widgetAddEnergy.init(root)
+    studio.add(widgetAddEnergy.mesh)
+    widgetAddEnergy.mesh.position.x = -200
+    widgetAddEnergy.mesh.position.y = -100
 
     await widgetFreeze.init(root)
     studio.add(widgetFreeze.mesh)

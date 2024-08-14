@@ -15,7 +15,7 @@ export type Assets = {
     textureNumbersMask: any,
     iconsMask: any,
     iconsMap: any,
-    popupMapPask: any,
+    popupMapMask: any,
 }
 
 export class LoaderAssets {
@@ -36,7 +36,7 @@ export class LoaderAssets {
             textureNumbersMask: { src: numbers, result: null },
             iconsMask: { src: iconsMask, result: null },
             iconsMap: { src: iconsMap, result: null },
-            popupMapPask: { src: popupMapMask, result: null },
+            popupMapMask: { src: popupMapMask, result: null },
         }
 
         return new Promise(resolve => {
