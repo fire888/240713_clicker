@@ -2,10 +2,10 @@ import * as THREE from 'three'
 
 import { Root } from "../pipelines/root"
 import { UiNumbers  } from './UiNumbers'
-
+import { UiIcon } from './UiIcon'
 export class WidgetTopCount {
     mesh: THREE.Object3D
-    coin: THREE.Mesh
+    _iconCoin: UiIcon
     _widgetNumbers: UiNumbers
 
     constructor() {}
@@ -13,20 +13,19 @@ export class WidgetTopCount {
     async init (root: Root) {
         this.mesh = new THREE.Object3D()
 
-        this.coin = new THREE.Mesh(
-            root.assets.coinModel.scene.children[0].geometry,
-            new THREE.MeshStandardMaterial({ color: 0xff0000 })
-        )
-        this.coin.scale.set(20, 20, 20)
-        this.coin.rotation.x = Math.PI / 2
-        this.coin.position.x = -25
-        this.coin.position.y = 12
+        this._iconCoin = new UiIcon()
+        await this._iconCoin.init(root)
+        this._iconCoin.show('hand')
+        this._iconCoin.mesh.scale.set(.6, .6, .6)
+        this._iconCoin.mesh.position.y = 0
+        this._iconCoin.mesh.position.x = -25
+        this.mesh.add(this._iconCoin.mesh)
 
-        this.mesh.add(this.coin)
 
         this._widgetNumbers = new UiNumbers()
         await this._widgetNumbers.init(root)
         this.mesh.add(this._widgetNumbers.mesh)
+        this._widgetNumbers.mesh.scale.set(.6, .6, .6)
         this._widgetNumbers.show('12340986,+')
     }
 }

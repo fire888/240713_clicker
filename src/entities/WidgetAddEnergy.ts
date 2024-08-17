@@ -6,7 +6,8 @@ import * as THREE from 'three'
 export class WidgetAddEnergy {
     mesh: THREE.Object3D
     _val: UiNumbers
-    _icon: UiIcon
+    _iconH: UiIcon
+    _iconL: UiIcon
     _popup: THREE.Mesh
     constructor ()  {}
 
@@ -14,7 +15,7 @@ export class WidgetAddEnergy {
         this.mesh = new THREE.Object3D()
 
         this._popup = new THREE.Mesh(
-            new THREE.PlaneGeometry(200, 150),
+            new THREE.PlaneGeometry(100, 75),
             new THREE.MeshBasicMaterial({ 
                 color: 0x000099,
                 transparent: true,
@@ -24,27 +25,28 @@ export class WidgetAddEnergy {
         this._popup.position.z = -5
         this.mesh.add(this._popup)
 
+        this._iconL = new UiIcon()
+        await this._iconL.init(root)
+        this._iconL.show('lightInArrow')
+        this._iconL.mesh.position.x = -40
+        this._iconL.mesh.position.y = 5
+        this._iconL.mesh.scale.set(.6, .6, .6)
+        this.mesh.add(this._iconL.mesh)
 
-
-        this._icon = new UiIcon()
-        await this._icon.init(root)
-        this._icon.show('lightInArrow')
-        this._icon.mesh.position.x = -50
-        this._icon.mesh.position.y = 15
-        this.mesh.add(this._icon.mesh)
-
-        this._icon = new UiIcon()
-        await this._icon.init(root)
-        this._icon.show('hand')
-        this._icon.mesh.position.x = 0
-        this._icon.mesh.position.y = 15
-        this.mesh.add(this._icon.mesh)
+        this._iconH = new UiIcon()
+        await this._iconH.init(root)
+        this._iconH.show('hand')
+        this._iconH.mesh.scale.set(.6, .6, .6)
+        this._iconH.mesh.position.x = -15
+        this._iconH.mesh.position.y = 5
+        this.mesh.add(this._iconH.mesh)
 
         this._val = new UiNumbers()
         await this._val.init(root)
         this._val.show('100')
-        this._val.mesh.position.x = 50
-        this._val.mesh.position.y = 15
+        this._val.mesh.scale.set(.6, .6, .6)
+        this._val.mesh.position.x = 15
+        this._val.mesh.position.y = 5
         this.mesh.add(this._val.mesh)
     }
 }
