@@ -24,7 +24,7 @@ export class Studio {
 
         this.scene = new THREE.Scene()
         this.scene.background = new THREE.Color(0x0a1429)
-        this.fog = new THREE.Fog(0x0a1429, 1, 30)
+        //this.fog = new THREE.Fog(0x0a1429, 1, 30)
 
         this.hemiLight = new THREE.HemisphereLight(0xffffff, 0x8d8d8d, 3)
         this.hemiLight.position.set( 0, 20, 0 )
@@ -56,7 +56,6 @@ export class Studio {
         const onPointerDown = () => {
             this.raycaster.setFromCamera(this.pointer, this.camera)
             const intersects = this.raycaster.intersectObjects(this.interceptObjects)
-            console.log(this.pointer, intersects)
             for ( let i = 0; i < intersects.length; i ++ ) {
                 intersects[i].object.material.color.set(0x00ff00)
             }

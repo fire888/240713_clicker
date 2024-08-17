@@ -12,6 +12,7 @@ import { WidgetFreeze } from "entities/WidgetFreeze"
 import { WidgetGolden } from "entities/WidgetGolden"
 import { WidgetBomb } from "entities/WidgetBomb"
 import { WidgetAddEnergy } from "entities/WidgetAddEnergy"
+import { Background } from "entities/Background"
 
 
 export type Root = {
@@ -27,6 +28,7 @@ export type Root = {
     widgetGolden: WidgetGolden,
     widgetBomb: WidgetBomb,
     widgetAddEnergy: WidgetAddEnergy,
+    background: Background,
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
@@ -43,6 +45,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         widgetGolden: new WidgetGolden(),
         widgetBomb: new WidgetBomb(),
         widgetAddEnergy: new WidgetAddEnergy(),
+        background: new Background(),
     }
 
     await pipelineInit(root)

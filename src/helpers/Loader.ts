@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import coinModel from "../assets/coin1.glb";
+import coinModeRed from '../assets/coinForce.glb'
 import noise from "../assets/noise.png"
 import numbers from "../assets/numbers.jpg"
 import iconsMap from "../assets/icons_map.jpg"
@@ -16,6 +17,7 @@ export type Assets = {
     iconsMask: any,
     iconsMap: any,
     popupMapMask: any,
+    coinModelRed: any,
 }
 
 export class LoaderAssets {
@@ -32,6 +34,7 @@ export class LoaderAssets {
     loadAssets (): Promise<Assets> {
         const assets: Assets = {
             coinModel: { src: coinModel, result: null },
+            coinModelRed: { src: coinModeRed, result: null },
             textureNoise: { src: noise, result: null },
             textureNumbersMask: { src: numbers, result: null },
             iconsMask: { src: iconsMask, result: null },
@@ -64,32 +67,13 @@ export class LoaderAssets {
                 load('textureNumbersMask', numbers), 
                 load('iconsMask', iconsMask), 
                 load('iconsMap', iconsMap), 
-                load('popupMapMask', popupMapMask), 
+                load('popupMapMask', popupMapMask),
+                load('coinModelRed', coinModeRed),
             ]).then(() => {
                 resolve(assets)
             }, () => {
                 console.log('not resource loaded')
             })
-
-
-
-
-
-
-
-            // this._gltfLoader.load(coinModel, m => {
-            //     this._textureLoader.load(noise, t => {
-            //         this._textureLoader.load(numbers,  e => {
-            //             res({
-            //                 coinModel: m,
-            //                 textureNoise: t,
-            //                 textureNumbersMask: e,
-            //                 iconsMask: null,
-            //                 iconsMap: null,
-            //             })
-            //         })
-            //     })
-            // })
         })
     }
 }

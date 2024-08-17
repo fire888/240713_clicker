@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { Coin } from '../entities/Coin'
+import { CoinRed } from '../entities/CoinRed'
 
 export class SystemCircles {
     constructor () {}
@@ -18,6 +19,11 @@ export class SystemCircles {
 
             this.items.push(coin)
         }
+
+        this._coinRed = new CoinRed(root)
+        this.items.push(this._coinRed)
+        this.group.add(this._coinRed.m)
+
     }
 
     update () {
@@ -28,7 +34,11 @@ export class SystemCircles {
             if (this.items[i].m.position.y < -300) {
                 this.items[i].m.position.y = 300
                 this.items[i].m.position.x = (Math.random() - .5) * 500
-                this.items[i].m.material.color.set(0xbbbbbb)
+                if (this.items[i].type !== 'coinRed') {
+                    this.items[i].m.material.color.set(0xbbbbbb)
+                } else {
+                    this.items[i].m.material.color.set(0xff0000)
+                }
             }
         }
     }

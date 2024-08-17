@@ -1,6 +1,7 @@
 import * as THREE from "three";
 
 export class Coin {
+    type: string = 'coin'
     m: THREE.Mesh
     readonly _xRotSpeed: number = (Math.random() - .5) * 0.1
     readonly _zRotSpeed: number = (Math.random() - .5) * 0.1

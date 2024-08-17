@@ -13,6 +13,7 @@ export const pipelineInit = async (root: Root) => {
         widgetGolden,
         widgetBomb,
         widgetAddEnergy,
+        background,
     } = root
 
     ticker.start()
@@ -26,6 +27,10 @@ export const pipelineInit = async (root: Root) => {
     loaderAssets.init()
     const assetsResult = await loaderAssets.loadAssets()
     root.assets = assetsResult
+
+    background.init(root)
+    background.m.position.z = -1000
+    studio.add(background.m) 
 
     systemCircles.init(root)
     studio.add(systemCircles.group)
