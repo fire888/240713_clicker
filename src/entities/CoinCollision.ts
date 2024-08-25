@@ -7,10 +7,13 @@ export class CoinCollision {
     type: string = 'coinCollision'
     m: THREE.Mesh 
 
-    constructor(root: any) {
-        const g = new THREE.PlaneGeometry(20, 20, 1, 1)
+    constructor(root: any, name: string) {
+        const g = new THREE.PlaneGeometry(50, 70, 1, 1)
 
         this.m = new THREE.Mesh(g, CoinCollision.collisionMat)
+        this.m.userData.userType = 'coin'
+        this.m.userData.userName = name
+        this.m.visible = false
     }
     update () {}
 }

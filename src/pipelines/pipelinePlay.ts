@@ -13,8 +13,15 @@ export const pipelinePlay = async (root: Root) => {
         systemCircles,
     } = root
 
-    for (let i = 0; i < systemCircles.items.length; ++i) {
-        studio.setObjectToPointerIntercept(systemCircles.items[i].collisionMesh)
+    studio.setCbOnInterseptTap((type: string, name: string) => {
+        console.log('onTap', type, name)
+        if (type === 'coin') {
+            systemCircles.breakCoin(name)
+        }
+    })
+
+    for (let i = 0; i < systemCircles.collisions.length; ++i) {
+        studio.setObjectToPointerIntercept(systemCircles.collisions[i].m)
     }
 
     //controlsPointer.disable()

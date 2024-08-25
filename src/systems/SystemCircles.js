@@ -21,8 +21,9 @@ export class SystemCircles {
 
             this.items.push(coin)
 
-
-            //const collision = new 
+            const collision = new CoinCollision(root, i)
+            this.collisions.push(collision)
+            this.group.add(collision.m)
         }
 
         this._coinRed = new CoinRed(root)
@@ -40,11 +41,19 @@ export class SystemCircles {
                 this.items[i].m.position.y = 300
                 this.items[i].m.position.x = (Math.random() - .5) * 500
                 if (this.items[i].type !== 'coinRed') {
-                    this.items[i].mView.material.color.set(0xbbbbbb)
+                    this.items[i].m.material.color.set(0xbbbbbb)
                 } else {
                     this.items[i].m.material.color.set(0xff0000)
                 }
             }
+            if (this.collisions[i]) { 
+                this.collisions[i].m.position.copy(this.items[i].m.position)
+            }
         }
+    }
+
+    breakCoin (id) {
+        console.log(id, this.items[id])
+        this.items[id].setColor(0x00ff00)
     }
 }

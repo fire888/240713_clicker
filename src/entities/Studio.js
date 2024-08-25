@@ -57,7 +57,16 @@ export class Studio {
             this.raycaster.setFromCamera(this.pointer, this.camera)
             const intersects = this.raycaster.intersectObjects(this.interceptObjects)
             for ( let i = 0; i < intersects.length; i ++ ) {
-                // intersects[i].object.material.color.set(0x00ff00)
+                if (
+                    intersects[i].object.userData.userName && 
+                    intersects[i].object.userData.userType && 
+                    this._cbOnIntersept
+                ) {
+                    this._cbOnIntersept(
+                        intersects[i].object.userData.userType, 
+                        intersects[i].object.userData.userName
+                    )
+                }
             }
         }
         window.addEventListener('pointerdown', onPointerDown)
@@ -93,5 +102,9 @@ export class Studio {
 
     setObjectToPointerIntercept (m) {
         this.interceptObjects.push(m)
+    }
+
+    setCbOnInterseptTap (cb) {
+        this._cbOnIntersept = cb
     }
 }

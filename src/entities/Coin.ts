@@ -2,9 +2,7 @@ import * as THREE from "three";
 
 export class Coin {
     type: string = 'coin'
-    m: THREE.Object3D
-    mView: THREE.Mesh
-    collisionMesh: THREE.Mesh 
+    m: THREE.Mesh
     readonly _xRotSpeed: number = (Math.random() - .5) * 0.1
     readonly _zRotSpeed: number = (Math.random() - .5) * 0.1
 
@@ -27,28 +25,18 @@ export class Coin {
             //opacity: 0.8,
         })
 
-        this.m = new THREE.Object3D()
-
-        this.mView = new THREE.Mesh(g, m)
-        this.mView.scale.set(30, 7, 30)
-        this.mView.rotation.x = Math.PI / 2
-        this.m.add(this.mView)
-
-        this.collisionMesh = new THREE.Mesh(
-            new THREE.PlaneGeometry(30, 30),
-            Coin.collisionMat,
-        )
-
-        this.m.add(this.collisionMesh)
+        this.m = new THREE.Mesh(g, m)
+        this.m.scale.set(30, 7, 30)
+        this.m.rotation.x = Math.PI / 2
     }
 
     update () {
-        this.mView.rotation.x += this._xRotSpeed
-        this.mView.rotation.z += this._zRotSpeed
+        this.m.rotation.x += this._xRotSpeed
+        this.m.rotation.z += this._zRotSpeed
     }
 
     setColor (color: number) {
         // @ts-ignore: Unreachable code error
-        this.mView.material.color.set(0xbbbbbb)
+        this.m.material.color.set(color)
     }
 }
