@@ -57,7 +57,7 @@ export class Studio {
             this.raycaster.setFromCamera(this.pointer, this.camera)
             const intersects = this.raycaster.intersectObjects(this.interceptObjects)
             for ( let i = 0; i < intersects.length; i ++ ) {
-                intersects[i].object.material.color.set(0x00ff00)
+                // intersects[i].object.material.color.set(0x00ff00)
             }
         }
         window.addEventListener('pointerdown', onPointerDown)

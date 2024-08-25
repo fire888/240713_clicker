@@ -14,7 +14,7 @@ export const pipelinePlay = async (root: Root) => {
     } = root
 
     for (let i = 0; i < systemCircles.items.length; ++i) {
-        studio.setObjectToPointerIntercept(systemCircles.items[i].m)
+        studio.setObjectToPointerIntercept(systemCircles.items[i].collisionMesh)
     }
 
     //controlsPointer.disable()
