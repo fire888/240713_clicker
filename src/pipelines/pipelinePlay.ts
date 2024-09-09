@@ -1,5 +1,5 @@
 // https://drive.google.com/drive/folders/1oCZhaICbvunn4dyJHrRJmWqF5xZzUyll
-import { Root } from './root'
+import { Root } from './pipelineInit'
 
 
 const completePlay = (): Promise<void> => {
@@ -11,11 +11,17 @@ export const pipelinePlay = async (root: Root) => {
     const {
         studio,
         systemCircles,
+        widgetTopCount,
     } = root
 
+
+    let currentCoinsValue: number = 0
+    widgetTopCount.setValue(currentCoinsValue)
+
     studio.setCbOnInterseptTap((type: string, name: string) => {
-        console.log('onTap', type, name)
         if (type === 'coin') {
+            ++currentCoinsValue
+            widgetTopCount.setValue(currentCoinsValue)
             systemCircles.breakCoin(name)
         }
     })
@@ -23,25 +29,6 @@ export const pipelinePlay = async (root: Root) => {
     for (let i = 0; i < systemCircles.collisions.length; ++i) {
         studio.setObjectToPointerIntercept(systemCircles.collisions[i].m)
     }
-
-    //controlsPointer.disable()
-    //controlsOrbit.enable()
-
-    // const onKeyUp = event => {
-    //     if (event.code === 'KeyO') {
-    //         if (controlsPointer.isEnabled) {
-    //             studio.scene.fog = null
-    //             controlsPointer.disable()
-    //             controlsOrbit.enable()
-    //
-    //         } else {
-    //             studio.scene.fog = studio.fog
-    //             controlsOrbit.disable()
-    //             controlsPointer.enable()
-    //         }
-    //     }
-    // }
-    // document.addEventListener('keyup', onKeyUp)
 
     await completePlay()
 }

@@ -5,6 +5,7 @@ export class Coin {
     m: THREE.Mesh
     readonly _xRotSpeed: number = (Math.random() - .5) * 0.1
     readonly _zRotSpeed: number = (Math.random() - .5) * 0.1
+    isTapped: boolean = false
 
     static collisionMat = new THREE.MeshBasicMaterial({ color: 0xFF0000 }) 
 
@@ -26,7 +27,7 @@ export class Coin {
         })
 
         this.m = new THREE.Mesh(g, m)
-        this.m.scale.set(30, 7, 30)
+        this.m.scale.set(30, 30, 30)
         this.m.rotation.x = Math.PI / 2
     }
 

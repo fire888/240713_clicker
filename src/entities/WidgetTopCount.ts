@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-import { Root } from "../pipelines/root"
+import { Root } from "../pipelines/pipelineInit"
 import { UiNumbers  } from './UiNumbers'
 import { UiIcon } from './UiIcon'
 export class WidgetTopCount {
@@ -27,5 +27,9 @@ export class WidgetTopCount {
         this.mesh.add(this._widgetNumbers.mesh)
         this._widgetNumbers.mesh.scale.set(.6, .6, .6)
         this._widgetNumbers.show('12340986,+')
+    }
+
+    setValue (val: number) {
+        this._widgetNumbers.show(val + '')
     }
 }

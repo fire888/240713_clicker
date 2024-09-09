@@ -1,10 +1,50 @@
-import { Root } from './root'
+import { Studio } from "../entities/Studio"
+import { Ticker } from "../helpers/Ticker"
+import { WidgetTopCount  } from "../entities/WidgetTopCount"
+import { SystemCircles } from "../systems/SystemCircles"
+import { LoaderAssets, Assets } from '../helpers/Loader'
+import { WidgetTimer } from "entities/WidgetTimer"
+import { WidgetFreeze } from "entities/WidgetFreeze"
+import { WidgetGolden } from "entities/WidgetGolden"
+import { WidgetBomb } from "entities/WidgetBomb"
+import { WidgetAddEnergy } from "entities/WidgetAddEnergy"
+import { Background } from "entities/Background"
+import * as TWEEN from '@tweenjs/tween.js'
 
-export const pipelineInit = async (root: Root) => {
+export type Root = {
+    assets: Assets,
+    ticker: Ticker,
+    studio: Studio,
+    systemCircles: SystemCircles,
+    loaderAssets: LoaderAssets,
+    widgetTopCount: WidgetTopCount,
+    widgetTimer: WidgetTimer,
+    widgetFreeze: WidgetFreeze,
+    widgetGolden: WidgetGolden,
+    widgetBomb: WidgetBomb,
+    widgetAddEnergy: WidgetAddEnergy,
+    background: Background,
+}
+
+export const pipelineInit = async () => {
+    const root: Root = {
+        assets: null,
+        ticker: new Ticker(),
+        studio: new Studio(),
+        widgetTopCount: new WidgetTopCount(),
+        systemCircles: new SystemCircles(),
+        loaderAssets: new LoaderAssets(),
+        widgetTimer: new WidgetTimer(),
+        widgetFreeze: new WidgetFreeze(),
+        widgetGolden: new WidgetGolden(),
+        widgetBomb: new WidgetBomb(),
+        widgetAddEnergy: new WidgetAddEnergy(),
+        background: new Background(),
+    }
+
     const {
         studio,
         ticker,
-        // boxTest,
         systemCircles,
         loaderAssets,
         widgetTopCount,
@@ -18,11 +58,10 @@ export const pipelineInit = async (root: Root) => {
 
     ticker.start()
 
+    ticker.on(TWEEN.update)
+
     studio.init()
     ticker.on(studio.render.bind(studio))
-
-    //boxTest.init()
-    //studio.add(boxTest.mesh)
 
     loaderAssets.init()
     const assetsResult = await loaderAssets.loadAssets()
@@ -64,4 +103,6 @@ export const pipelineInit = async (root: Root) => {
     studio.add(widgetBomb.mesh)
     widgetBomb.mesh.position.x = 110
     widgetBomb.mesh.position.y = -200
+
+    return root
 }
