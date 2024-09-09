@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { Root } from "pipelines/root"
+import { Root } from "../pipelines/pipelineInit";
 import { UiBar } from "./UiBar"
 import { UiNumbers } from './UiNumbers'
 import { UiIcon } from './UiIcon'

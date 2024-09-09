@@ -1,4 +1,4 @@
-import { Root } from "pipelines/root";
+import { Root } from "../pipelines/pipelineInit";
 import { UiNumbers } from "./UiNumbers"
 import { UiIcon } from "./UiIcon";
 import * as THREE from 'three'

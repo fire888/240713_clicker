@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { Root } from "pipelines/root"
+import { Root } from "pipelines/pipelineInit";
 
 type KeysToShow = "hand" | "lightInArrow" | "light" | "halfCircle" | "empty" | "frz" | "yellow" | 'boom'
 

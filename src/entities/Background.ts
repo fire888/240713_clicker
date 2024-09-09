@@ -1,4 +1,4 @@
-import { Root } from "pipelines/root";
+import { Root } from "pipelines/pipelineInit";
 import * as THREE from "three";
 
 export class Background {
