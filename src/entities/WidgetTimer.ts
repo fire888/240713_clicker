@@ -39,4 +39,8 @@ export class WidgetTimer {
         this._val.mesh.scale.set(.6, .6, .6)
         this.mesh.add(this._val.mesh)
     }
+
+    setValue (val: number) {
+        this._bar.setValue(val)
+    }
 }

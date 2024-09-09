@@ -43,6 +43,7 @@ void main()	{
 
 export class UiBar {
     mesh: THREE.Object3D
+    material: THREE.RawShaderMaterial
     constructor () {
 
     }
@@ -62,8 +63,6 @@ export class UiBar {
             0, h, 0,
         ]
 
-
-
         const uv = [
             0, 0, 0,
             1, 0, 0,
@@ -81,7 +80,7 @@ export class UiBar {
         geometry.computeVertexNormals()
 
 
-        const mat = new THREE.RawShaderMaterial( {
+        this.material = new THREE.RawShaderMaterial( {
             uniforms: {
                 val: { value: 0.2 }
             },
@@ -92,8 +91,12 @@ export class UiBar {
         } );
 
 
-        const m = new THREE.Mesh(geometry, mat)
+        const m = new THREE.Mesh(geometry, this.material)
 
         this.mesh.add(m)
+    }
+
+    setValue (val: number) {
+        this.material.uniforms.val.value = val
     }
 }
