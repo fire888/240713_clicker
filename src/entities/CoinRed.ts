@@ -3,6 +3,7 @@ import * as THREE from "three";
 export class CoinRed {
     type: string = 'coinRed'
     m: THREE.Mesh
+    isTapped: boolean = false
     readonly _xRotSpeed: number = (Math.random() - .5) * 0.1
     readonly _zRotSpeed: number = (Math.random() - .5) * 0.1
 

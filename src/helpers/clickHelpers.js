@@ -8,3 +8,4 @@ export const documentClickOnce = () => {
         document.body.addEventListener('click', listener)
     })
 }
+

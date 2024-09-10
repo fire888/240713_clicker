@@ -68,7 +68,7 @@ export const pipelineInit = async () => {
     root.assets = assetsResult
 
     background.init(root)
-    background.m.position.z = -1000
+    background.m.position.z = -3000
     studio.add(background.m) 
 
     systemCircles.init(root)

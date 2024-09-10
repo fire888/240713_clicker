@@ -1,7 +1,9 @@
 import * as THREE from 'three'
 
 export class Studio {
-    constructor () {}
+    constructor () {
+        this._cbsOnIntercepts = [] 
+    }
 
     init () {
         this.containerDom = document.getElementById('container-game')
@@ -60,24 +62,24 @@ export class Studio {
                 if (
                     intersects[i].object.userData.userName && 
                     intersects[i].object.userData.userType && 
-                    this._cbOnIntersept
+                    this._cbsOnIntercepts.length > 0
                 ) {
-                    this._cbOnIntersept(
-                        intersects[i].object.userData.userType, 
-                        intersects[i].object.userData.userName
-                    )
+                    for (let j = 0; j < this._cbsOnIntercepts.length; ++j) {
+                        this._cbsOnIntercepts[j](
+                            intersects[i].object.userData.userType, 
+                            intersects[i].object.userData.userName
+                        )
+                    }
                 }
             }
         }
         window.addEventListener('pointerdown', onPointerDown)
-
 
         window.addEventListener( 'resize', this.onWindowResize.bind(this))
         this.onWindowResize()
     }
 
     render () {
-
         this.renderer.render(this.scene, this.camera)
     }
 
@@ -100,11 +102,20 @@ export class Studio {
         this.scene.add(m)
     }
 
+    remove (m) {
+        this.scene.remove(m)
+    }
+
     setObjectToPointerIntercept (m) {
         this.interceptObjects.push(m)
     }
 
+    clearObjectsToPointerIntercept () {
+        this.interceptObjects = [] 
+    }
+
     setCbOnInterseptTap (cb) {
-        this._cbOnIntersept = cb
+        this._cbsOnIntercepts.push(cb)
+        return () => this._cbsOnIntercepts = this._cbsOnIntercepts.filter(f => f !== cb)
     }
 }

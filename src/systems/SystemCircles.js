@@ -10,6 +10,7 @@ export class SystemCircles {
     init (root) {
         this._root = root
         this.group = new THREE.Group()
+        this._isUpdate = false
 
         this.items = []
         this.collisions = []
@@ -23,18 +24,26 @@ export class SystemCircles {
 
             this.items.push(coin)
 
-            const collision = new CoinCollision(root, i)
+            const collision = new CoinCollision(root, i, 'coinSimple')
             this.collisions.push(collision)
             this.group.add(collision.m)
         }
 
         this._coinRed = new CoinRed(root)
+        this._coinRed.savedZ =this._coinRed.m.position.z
         this.items.push(this._coinRed)
         this.group.add(this._coinRed.m)
 
+        const collision = new CoinCollision(root, this.items.length - 1, 'coinRed')
+        this.collisions.push(collision)
+        this.group.add(collision.m)
     }
 
     update () {
+        if (!this._isUpdate) {
+            return;
+        }
+
         for (let i = 0; i < this.items.length; ++i) {
             if (this.items[i].isTapped) {
                 continue;
@@ -61,7 +70,7 @@ export class SystemCircles {
             .to({ ph: 1 }, 2000)
             .onUpdate(obj => {
                 const v = (1 - obj.ph) * 30
-                item.m.scale.set(v, v, v)
+                item.m.scale.set(v, v * .1, v)
             })
             .onComplete(() => {
                 this.resetItem(id)
@@ -73,8 +82,15 @@ export class SystemCircles {
         this.items[id].m.position.y = 300
         this.items[id].m.position.x = (Math.random() - .5) * 500
         this.items[id].m.position.z = this.items[id].savedZ
-        this.items[id].m.scale.set(30, 7, 30)
+        this.items[id].m.scale.set(30, 30 * 0.1, 30)
         this.items[id].isTapped = false
-        this.items[id].m.material.color.set(0xbbbbbb)
+    }
+
+    stop () {
+        this._isUpdate = false
+    }
+
+    start () {
+        this._isUpdate = true
     }
 }

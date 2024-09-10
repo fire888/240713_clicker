@@ -29,7 +29,7 @@ export class Ticker {
     on (f) {
         this.updates.push(f)
         return () => {
-            this.updates.filter(item => item !== f)
+            this.updates = this.updates.filter(item => item !== f)
         }
     }
 }
