@@ -102,7 +102,7 @@ export const pipelinePlay = async (root: Root) => {
 
     systemCircles.start()
 
-    let resolve: any
+    let resolveCompletePipeline: any
     let clearTickerUpdateTime: () => void 
 
     const stopGame = () => {
@@ -111,7 +111,7 @@ export const pipelinePlay = async (root: Root) => {
         studio.clearObjectsToPointerIntercept()
         systemCircles.stop()
         clearTickerUpdateTime()
-        resolve() 
+        resolveCompletePipeline() 
     }
 
     // update timer count
@@ -126,7 +126,5 @@ export const pipelinePlay = async (root: Root) => {
         }
     })
 
-    return new Promise(res => {
-        resolve = res
-    })
+    return new Promise(res => resolveCompletePipeline = res)
 }
