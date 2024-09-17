@@ -9,6 +9,7 @@ export class WidgetAddEnergy {
     _iconH: UiIcon
     _iconL: UiIcon
     _popup: THREE.Mesh
+    clickArea: THREE.Mesh
     constructor ()  {}
 
     async init (root: Root) {
@@ -48,5 +49,19 @@ export class WidgetAddEnergy {
         this._val.mesh.position.x = 15
         this._val.mesh.position.y = 5
         this.mesh.add(this._val.mesh)
+
+        this.clickArea = new THREE.Mesh(
+            new THREE.PlaneGeometry(100, 40),
+            new THREE.MeshBasicMaterial({ 
+                color: 0xff0099,
+                transparent: true,
+                opacity: .3,
+            })
+        )
+        this.clickArea.position.z = 5
+        this.clickArea.position.y = 15
+        this.mesh.add(this.clickArea)
+        this.clickArea.userData.userType = 'uiClick' 
+        this.clickArea.userData.userName = 'uiClickAddEnergy' 
     }
 }

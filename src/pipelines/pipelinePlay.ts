@@ -2,6 +2,9 @@
 import { Root } from './pipelineInit'
 import { UiNumbers } from 'entities/UiNumbers'
 import * as TWEEN from '@tweenjs/tween.js'
+import { SystemCircles } from 'systems/SystemCircles'
+import { pause } from 'helpers/helperFunctions'
+import { WidgetGolden } from 'entities/WidgetGolden'
 
 export const pipelinePlay = async (root: Root) => {
     const {
@@ -9,6 +12,10 @@ export const pipelinePlay = async (root: Root) => {
         systemCircles,
         widgetTopCount,
         widgetTimer,
+        widgetFreeze,
+        widgetGolden,
+        widgetAddEnergy,
+        widgetBomb,
         ticker,
     } = root
 
@@ -16,11 +23,22 @@ export const pipelinePlay = async (root: Root) => {
     const strokeWinCoin: string = '+' + valWinCoin
     const valWinCoinRed: number = 50 
     const strokeWinCoinRed: string = '+' + valWinCoinRed
+    const priceFreeze: number = 100
+    const priceGolden: number = 200
+    const priceBomb: number = 300 
     let currentCoinsValue: number = 0
     let currentTimerValue: number = 0 
 
     widgetTopCount.setValue(currentCoinsValue)
     widgetTimer.setValue(currentTimerValue)
+    widgetFreeze.setValue(priceFreeze)
+    widgetGolden.setValue(priceGolden)
+    widgetBomb.setValue(priceBomb)
+
+    studio.setObjectToPointerIntercept(widgetAddEnergy.clickArea)
+    studio.setObjectToPointerIntercept(widgetFreeze.clickArea)
+    studio.setObjectToPointerIntercept(widgetGolden.clickArea)
+    studio.setObjectToPointerIntercept(widgetBomb.clickArea)
 
     const clickCoin = async (id: any) => {
         if (systemCircles.items[id].isTapped) {
@@ -86,28 +104,95 @@ export const pipelinePlay = async (root: Root) => {
             .start()
     }
 
+    const clickBuyTimer = async () => {
+        if (currentCoinsValue < priceFreeze) {
+            return;
+        }
+        currentCoinsValue -= priceFreeze
+        widgetTopCount.setValue(currentCoinsValue)
 
-    const removeCbInterceptCoin = studio.setCbOnInterseptTap((type: string, name: any) => {
+        currentTimerValue = 0
+        widgetTimer.setValue(currentTimerValue)
+    }
+
+
+    const clickFreezeGame = async () => {
+        if (currentCoinsValue < priceFreeze) {
+            return;
+        }
+        currentCoinsValue -= priceFreeze
+        widgetTopCount.setValue(currentCoinsValue)
+        
+        systemCircles.stop()
+        await pause(3000)
+        systemCircles.start()
+    }
+
+    const clickGolden = async () => {
+        if (currentCoinsValue < priceGolden) {
+            return;
+        }
+        currentCoinsValue -= priceGolden
+        widgetTopCount.setValue(currentCoinsValue)
+        systemCircles.addMoreCoins()
+        await pause(5000)
+        console.log('YTYTYT CLICK GOLDEN')
+    }
+
+
+    const clickBomb = async () => {
+        if (currentCoinsValue < priceBomb) {
+            return;
+        }
+        currentCoinsValue -= priceBomb
+        widgetTopCount.setValue(currentCoinsValue)
+        for (let i = 0; i < systemCircles.items.length - 5; ++i) {
+            clickCoin(i)
+        }
+        console.log('YTYTYT CLICK BOMB')
+    }
+
+
+    const removeCbIntercept = studio.setCbOnInterseptTap((type: string, name: any) => {
         if (type === 'coinSimple') {
             clickCoin(name).then()
         }
         if (type === 'coinRed') {
             clickCoinRed(name).then()
         }
+        if (name === 'uiClickAddEnergy') {
+            clickBuyTimer().then()
+        }
+        if (name === 'uiClickFreeze') {
+            clickFreezeGame().then()
+        }
+        if (name === 'uiClickGolden') {
+            clickGolden().then()
+        }
+        if (name === 'uiClickBomb') {
+            clickBomb().then()
+        }
     })
 
     for (let i = 0; i < systemCircles.collisions.length; ++i) {
         studio.setObjectToPointerIntercept(systemCircles.collisions[i].m)
     }
-
     systemCircles.start()
+
+
+
+
+
+
+
+    // complete pipeline
 
     let resolveCompletePipeline: any
     let clearTickerUpdateTime: () => void 
 
     const stopGame = () => {
         currentTimerValue = 0
-        removeCbInterceptCoin()
+        removeCbIntercept()
         studio.clearObjectsToPointerIntercept()
         systemCircles.stop()
         clearTickerUpdateTime()
@@ -117,8 +202,8 @@ export const pipelinePlay = async (root: Root) => {
     // update timer count
     let saved = Date.now()
     clearTickerUpdateTime = ticker.on(() => {
-        //currentTimerValue += (Date.now() - saved) * 0.001 * 0.016
-        currentTimerValue += (Date.now() - saved) * 0.009 * 0.016
+        currentTimerValue += (Date.now() - saved) * 0.001 * 0.016
+        //currentTimerValue += (Date.now() - saved) * 0.009 * 0.016
         widgetTimer.setValue(currentTimerValue)
         saved = Date.now()
         if (currentTimerValue > 1) {

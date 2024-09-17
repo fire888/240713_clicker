@@ -93,4 +93,8 @@ export class SystemCircles {
     start () {
         this._isUpdate = true
     }
-}
+
+    addMoreCoins () {
+        console.log('HHHHHH ADD MORE COINS')
+    }
+ }

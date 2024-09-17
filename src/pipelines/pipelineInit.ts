@@ -1,8 +1,8 @@
 import { Studio } from "../entities/Studio"
-import { Ticker } from "../helpers/Ticker"
+import { Ticker } from "../entities/Ticker"
 import { WidgetTopCount  } from "../entities/WidgetTopCount"
 import { SystemCircles } from "../systems/SystemCircles"
-import { LoaderAssets, Assets } from '../helpers/Loader'
+import { LoaderAssets, Assets } from '../entities/Loader'
 import { WidgetTimer } from "entities/WidgetTimer"
 import { WidgetFreeze } from "entities/WidgetFreeze"
 import { WidgetGolden } from "entities/WidgetGolden"
