@@ -14,9 +14,13 @@ export class SystemCircles {
         this._fastAppearSpeedCoins = 35
         this._speedAppearCoinInSecond = this._defaultAppearSpeedCoins
         this._isApperGoldenCoins = false
+        this._savedTimeAppear = 0
+
+        this._speedAppearCoinRedInSecond = 0.2
+        this._savedTimeAppearCoinRed = 0
 
         this._isUpdate = false
-        this._savedTimeAppear = 0
+
 
         this._speedYNormal = -4
         this._speedYSlow = -1
@@ -38,6 +42,15 @@ export class SystemCircles {
             this.items[coin.id] = coin
         }
 
+        const coinRed = new CoinRed(root)
+        coinRed.setPosition(
+            (Math.random() - .5) * 500,
+            this._yTopGolden,
+            1,
+        )
+        coinRed.addToScene()
+        this.items[coinRed.id] = coinRed
+
     }
 
     update () {
@@ -51,7 +64,10 @@ export class SystemCircles {
             this._savedTimeAppear = time
             const arr = []
             for (let key in this.items) {
-                if (this.items[key].state === COIN_STATES.readyToFall) {
+                if (
+                    this.items[key].state === COIN_STATES.readyToFall &&
+                    this.items[key].type === Coin.type
+                ) {
                     arr.push(key)                    
                 }
             }
@@ -62,6 +78,24 @@ export class SystemCircles {
                 if (this._isApperGoldenCoins) {
                     this.items[id].setColor(0xffff00)
                 }
+            }
+        }
+
+        if (time - this._savedTimeAppearCoinRed > 1000 / this._speedAppearCoinRedInSecond) {
+            this._savedTimeAppearCoinRed = time
+            const arr = []
+            for (let key in this.items) {
+                if (
+                    this.items[key].state === COIN_STATES.readyToFall &&
+                    this.items[key].type === CoinRed.type
+                ) {
+                    arr.push(key)                    
+                }
+            }
+
+            if (arr.length > 0) {
+                const id = arr[Math.floor(Math.random() * arr.length)]
+                this.items[id].state = COIN_STATES.fallingProcess
             }
         }
 
@@ -100,7 +134,10 @@ export class SystemCircles {
         this.items[id].setPositionX((Math.random() - .5) * 500)
         this.items[id].state = COIN_STATES.readyToFall
         this.items[id].m.scale.set(30, 30 * 0.1, 30)
-        this.items[id].setColor(0xbbbbbb)
+
+        if (this.items[id].type === Coin.type) {
+            this.items[id].setColor(0xbbbbbb)   
+        }
     }
 
     stop () {

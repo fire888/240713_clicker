@@ -3,16 +3,11 @@ import { Root } from "pipelines/pipelineInit";
 import { CoinCollision } from './CoinCollision'
 import { COIN_STATES, TYPE_COIN } from 'constants/constants'
 
-/*
-readyToFall
-fallingProcess
-hiddenProcess
-*/
-
 
 export class Coin {
     static type: string = TYPE_COIN
 
+    type = TYPE_COIN
     id: number = Math.floor(Math.random() * 100000) 
     m: THREE.Mesh
     collision: CoinCollision

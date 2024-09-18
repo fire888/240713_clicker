@@ -5,3 +5,4 @@ export const COIN_STATES = {
 }
 
 export const TYPE_COIN = 'TYPE_COIN'
+export const TYPE_COIN_RED = 'TYPE_COIN_RED'

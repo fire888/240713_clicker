@@ -5,7 +5,7 @@ import * as TWEEN from '@tweenjs/tween.js'
 import { SystemCircles } from 'systems/SystemCircles'
 import { pause } from 'helpers/helperFunctions'
 import { WidgetGolden } from 'entities/WidgetGolden'
-import { COIN_STATES, TYPE_COIN } from 'constants/constants'
+import { COIN_STATES, TYPE_COIN, TYPE_COIN_RED } from 'constants/constants'
 
 
 export const pipelinePlay = async (root: Root) => {
@@ -88,13 +88,20 @@ export const pipelinePlay = async (root: Root) => {
     } 
 
     const clickCoinRed = async (id: any) => {
-        //if (systemCircles.items[id].isTapped) {
-        //    return;
-        //}
+        // @ts-ignore: Unreachable code error
+        if (!systemCircles.items[id]) {
+            return    
+        }
+        // @ts-ignore: Unreachable code error
+        if (systemCircles.items[id].state !== COIN_STATES.fallingProcess) {
+            return;
+        }
 
         currentCoinsValue += valWinCoinRed
         widgetTopCount.setValue(currentCoinsValue)
         
+        // @ts-ignore: Unreachable code error
+        systemCircles.items[id].state = COIN_STATES.hiddenProcess
         systemCircles.breakCoin(id)
 
         const winCoinNumber = new UiNumbers()
@@ -175,7 +182,7 @@ export const pipelinePlay = async (root: Root) => {
         if (type === TYPE_COIN) {
             clickCoin(name).then()
         }
-        if (type === 'coinRed') {
+        if (type === TYPE_COIN_RED) {
             clickCoinRed(name).then()
         }
         if (name === 'uiClickAddEnergy') {

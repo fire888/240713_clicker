@@ -1,14 +1,23 @@
 import * as THREE from "three";
+import { COIN_STATES, TYPE_COIN, TYPE_COIN_RED } from 'constants/constants'
+import { CoinCollision } from './CoinCollision'
+import { Root } from "pipelines/pipelineInit";
 
 export class CoinRed {
-    type: string = 'coinRed'
+    static type: string = TYPE_COIN_RED
+
+    type = TYPE_COIN_RED
+    id: number = Math.floor(Math.random() * 100000) 
     m: THREE.Mesh
-    isTapped: boolean = false
+    collision: CoinCollision
     readonly _xRotSpeed: number = (Math.random() - .5) * 0.1
     readonly _zRotSpeed: number = (Math.random() - .5) * 0.1
+    state: string = COIN_STATES.readyToFall
+    _root: Root
 
-    constructor(root: any) {
-        this.type = 'coinRed'
+    constructor(root: Root) {
+        this._root = root
+
         const g = root.assets.coinModelRed.scene.children[0].geometry
         const m = new THREE.MeshPhongMaterial({ 
             //color: 0xbbbbbb, 
@@ -29,10 +38,54 @@ export class CoinRed {
         this.m.scale.set(30, 7, 30)
 
         this.m.rotation.x = Math.PI / 2
+
+        this.collision = new CoinCollision()
+        //this.collision.m.visible = false
+        this.collision.m.userData.userName = this.id
+        this.collision.m.userData.userType = CoinRed.type
     }
 
-    update () {
+    updateRotation () {
+        if (this.state !== COIN_STATES.fallingProcess) {
+            return
+        }
         this.m.rotation.x += this._xRotSpeed
         this.m.rotation.z += this._zRotSpeed
+    }
+
+    setColor (color: number) {
+        // @ts-ignore: Unreachable code error
+        this.m.material.color.set(color)
+    }
+
+    addToScene () {
+        this._root.studio.add(this.m)
+        this._root.studio.add(this.collision.m)
+        this._root.studio.setObjectToPointerIntercept(this.collision.m)
+    }
+
+    setPosition (x: number, y: number, z: number) {
+        this.m.position.set(x, y, z)
+        this.collision.m.position.copy(this.m.position)
+    }
+
+    setPositionX (x: number) {
+        this.m.position.x = x
+        this.collision.m.position.x = this.m.position.x
+    }
+
+    setPositionY (y: number) {
+        this.m.position.y = y
+        this.collision.m.position.y = this.m.position.y
+    }
+
+    addToPositionY (speedY: number) {
+        this.m.position.y += speedY
+        this.collision.m.position.y = this.m.position.y
+    }
+
+    setPositionZ (z: number) {
+        this.m.position.z = z
+        this.collision.m.position.z = this.m.position.z
     }
 }
