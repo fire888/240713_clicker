@@ -5,6 +5,8 @@ import * as TWEEN from '@tweenjs/tween.js'
 import { SystemCircles } from 'systems/SystemCircles'
 import { pause } from 'helpers/helperFunctions'
 import { WidgetGolden } from 'entities/WidgetGolden'
+import { COIN_STATES, TYPE_COIN } from 'constants/constants'
+
 
 export const pipelinePlay = async (root: Root) => {
     const {
@@ -23,9 +25,12 @@ export const pipelinePlay = async (root: Root) => {
     const strokeWinCoin: string = '+' + valWinCoin
     const valWinCoinRed: number = 50 
     const strokeWinCoinRed: string = '+' + valWinCoinRed
-    const priceFreeze: number = 100
-    const priceGolden: number = 200
-    const priceBomb: number = 300 
+    // const priceFreeze: number = 100
+    // const priceGolden: number = 200
+    // const priceBomb: number = 300 
+    const priceFreeze: number = 10
+    const priceGolden: number = 20
+    const priceBomb: number = 30 
     let currentCoinsValue: number = 0
     let currentTimerValue: number = 0 
 
@@ -41,13 +46,20 @@ export const pipelinePlay = async (root: Root) => {
     studio.setObjectToPointerIntercept(widgetBomb.clickArea)
 
     const clickCoin = async (id: any) => {
-        if (systemCircles.items[id].isTapped) {
+        // @ts-ignore: Unreachable code error
+        if (!systemCircles.items[id]) {
+            return    
+        }
+        // @ts-ignore: Unreachable code error
+        if (systemCircles.items[id].state !== COIN_STATES.fallingProcess) {
             return;
         }
 
         currentCoinsValue += valWinCoin
         widgetTopCount.setValue(currentCoinsValue)
         
+        // @ts-ignore: Unreachable code error
+        systemCircles.items[id].state = COIN_STATES.hiddenProcess
         systemCircles.breakCoin(id)
 
         const winCoinNumber = new UiNumbers()
@@ -55,9 +67,12 @@ export const pipelinePlay = async (root: Root) => {
         winCoinNumber.mesh.scale.set(.6, .6, .6)
         root.studio.add(winCoinNumber.mesh)
         winCoinNumber.show(strokeWinCoin)
-        winCoinNumber.mesh.position.copy(systemCircles.items[id].m.position)
 
-        const savedY = systemCircles.items[id].m.position.y
+        // @ts-ignore: Unreachable code error
+        const pos = systemCircles.items[id].m.position
+        winCoinNumber.mesh.position.copy(pos)
+
+        const savedY = pos.y
         const obj = { ph: 0 }
         new TWEEN.Tween(obj)
             .easing(TWEEN.Easing.Circular.Out)
@@ -73,9 +88,9 @@ export const pipelinePlay = async (root: Root) => {
     } 
 
     const clickCoinRed = async (id: any) => {
-        if (systemCircles.items[id].isTapped) {
-            return;
-        }
+        //if (systemCircles.items[id].isTapped) {
+        //    return;
+        //}
 
         currentCoinsValue += valWinCoinRed
         widgetTopCount.setValue(currentCoinsValue)
@@ -87,9 +102,13 @@ export const pipelinePlay = async (root: Root) => {
         winCoinNumber.mesh.scale.set(.6, .6, .6)
         root.studio.add(winCoinNumber.mesh)
         winCoinNumber.show(strokeWinCoinRed)
-        winCoinNumber.mesh.position.copy(systemCircles.items[id].m.position)
 
-        const savedY = systemCircles.items[id].m.position.y
+        // @ts-ignore: Unreachable code error
+        const pos = systemCircles.items[id].m.position
+        
+        winCoinNumber.mesh.position.copy(pos)
+
+        const savedY = pos.y
         const obj = { ph: 0 }
         new TWEEN.Tween(obj)
             .easing(TWEEN.Easing.Circular.Out)
@@ -123,9 +142,9 @@ export const pipelinePlay = async (root: Root) => {
         currentCoinsValue -= priceFreeze
         widgetTopCount.setValue(currentCoinsValue)
         
-        systemCircles.stop()
+        systemCircles.makeSpeedSlow()
         await pause(3000)
-        systemCircles.start()
+        systemCircles.makeSpeedNormal()
     }
 
     const clickGolden = async () => {
@@ -134,9 +153,9 @@ export const pipelinePlay = async (root: Root) => {
         }
         currentCoinsValue -= priceGolden
         widgetTopCount.setValue(currentCoinsValue)
-        systemCircles.addMoreCoins()
+        systemCircles.startMoreCoins()
         await pause(5000)
-        console.log('YTYTYT CLICK GOLDEN')
+        systemCircles.stopMoreCoins()
     }
 
 
@@ -146,15 +165,14 @@ export const pipelinePlay = async (root: Root) => {
         }
         currentCoinsValue -= priceBomb
         widgetTopCount.setValue(currentCoinsValue)
-        for (let i = 0; i < systemCircles.items.length - 5; ++i) {
-            clickCoin(i)
+        for (let key in systemCircles.items) {
+            clickCoin(key)
         }
-        console.log('YTYTYT CLICK BOMB')
     }
 
 
     const removeCbIntercept = studio.setCbOnInterseptTap((type: string, name: any) => {
-        if (type === 'coinSimple') {
+        if (type === TYPE_COIN) {
             clickCoin(name).then()
         }
         if (type === 'coinRed') {
@@ -174,9 +192,6 @@ export const pipelinePlay = async (root: Root) => {
         }
     })
 
-    for (let i = 0; i < systemCircles.collisions.length; ++i) {
-        studio.setObjectToPointerIntercept(systemCircles.collisions[i].m)
-    }
     systemCircles.start()
 
 
@@ -193,7 +208,7 @@ export const pipelinePlay = async (root: Root) => {
     const stopGame = () => {
         currentTimerValue = 0
         removeCbIntercept()
-        studio.clearObjectsToPointerIntercept()
+        //studio.clearObjectsToPointerIntercept()
         systemCircles.stop()
         clearTickerUpdateTime()
         resolveCompletePipeline() 

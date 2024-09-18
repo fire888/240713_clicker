@@ -1,42 +1,43 @@
 import * as THREE from 'three'
 import { Coin } from '../entities/Coin'
 import { CoinRed } from '../entities/CoinRed'
-import { CoinCollision } from 'entities/CoinCollision'
 import * as TWEEN from '@tweenjs/tween.js'
+import { COIN_STATES } from 'constants/constants'
 
 export class SystemCircles {
     constructor () {}
 
     init (root) {
         this._root = root
-        this.group = new THREE.Group()
+
+        this._defaultAppearSpeedCoins = 7
+        this._fastAppearSpeedCoins = 35
+        this._speedAppearCoinInSecond = this._defaultAppearSpeedCoins
+        this._isApperGoldenCoins = false
+
         this._isUpdate = false
+        this._savedTimeAppear = 0
 
-        this.items = []
-        this.collisions = []
-        for (let i = 0; i < 30; ++i) {
+        this._speedYNormal = -4
+        this._speedYSlow = -1
+        this._speedYCurrent = this._speedYNormal
+
+        this._yTop = 250
+        this._yTopGolden = -200
+        this._yBottom = -250
+
+        this.items = {}
+        for (let i = 0; i < 100; ++i) {
             const coin = new Coin(root)
-            coin.m.position.y = (Math.random() - .5) * 1000
-            coin.m.position.x = (Math.random() - .5) * 500
-            coin.m.position.z = -i * 35
-            coin.savedZ = coin.m.position.z
-            this.group.add(coin.m)
-
-            this.items.push(coin)
-
-            const collision = new CoinCollision(root, i, 'coinSimple')
-            this.collisions.push(collision)
-            this.group.add(collision.m)
+            coin.setPosition(
+                (Math.random() - .5) * 500,
+                this._yTop,
+                -i * 1,
+            )
+            coin.addToScene()
+            this.items[coin.id] = coin
         }
 
-        this._coinRed = new CoinRed(root)
-        this._coinRed.savedZ =this._coinRed.m.position.z
-        this.items.push(this._coinRed)
-        this.group.add(this._coinRed.m)
-
-        const collision = new CoinCollision(root, this.items.length - 1, 'coinRed')
-        this.collisions.push(collision)
-        this.group.add(collision.m)
     }
 
     update () {
@@ -44,17 +45,35 @@ export class SystemCircles {
             return;
         }
 
-        for (let i = 0; i < this.items.length; ++i) {
-            if (this.items[i].isTapped) {
+        // add random falling
+        const time = Date.now()
+        if (time - this._savedTimeAppear > 1000 / this._speedAppearCoinInSecond) {
+            this._savedTimeAppear = time
+            const arr = []
+            for (let key in this.items) {
+                if (this.items[key].state === COIN_STATES.readyToFall) {
+                    arr.push(key)                    
+                }
+            }
+
+            if (arr.length > 0) {
+                const id = arr[Math.floor(Math.random() * arr.length)]
+                this.items[id].state = COIN_STATES.fallingProcess
+                if (this._isApperGoldenCoins) {
+                    this.items[id].setColor(0xffff00)
+                }
+            }
+        }
+
+        for (let key in this.items) {
+            if (this.items[key].state !== COIN_STATES.fallingProcess) {
                 continue;
             }
-            this.items[i].update()
-            this.items[i].m.position.y -= 3
-            if (this.items[i].m.position.y < -300) {
-                this.resetItem(i)
-            }
-            if (this.collisions[i]) { 
-                this.collisions[i].m.position.copy(this.items[i].m.position)
+            this.items[key].updateRotation()
+            this.items[key].addToPositionY(this._speedYCurrent)
+
+            if (this.items[key].m.position.y < this._yBottom) {
+                this.resetItem(key)
             }
         }
     }
@@ -62,8 +81,6 @@ export class SystemCircles {
     breakCoin (id) {
         const item = this.items[id]
         
-        item.isTapped = true
-
         const obj = { ph: 0 }
         new TWEEN.Tween(obj)
             .easing(TWEEN.Easing.Circular.Out)
@@ -79,11 +96,11 @@ export class SystemCircles {
     }
 
     resetItem (id) {
-        this.items[id].m.position.y = 300
-        this.items[id].m.position.x = (Math.random() - .5) * 500
-        this.items[id].m.position.z = this.items[id].savedZ
+        this.items[id].setPositionY(this._yTop)
+        this.items[id].setPositionX((Math.random() - .5) * 500)
+        this.items[id].state = COIN_STATES.readyToFall
         this.items[id].m.scale.set(30, 30 * 0.1, 30)
-        this.items[id].isTapped = false
+        this.items[id].setColor(0xbbbbbb)
     }
 
     stop () {
@@ -94,7 +111,21 @@ export class SystemCircles {
         this._isUpdate = true
     }
 
-    addMoreCoins () {
-        console.log('HHHHHH ADD MORE COINS')
+    makeSpeedSlow () {
+        this._speedYCurrent = this._speedYSlow
+    }
+
+    makeSpeedNormal () {
+        this._speedYCurrent = this._speedYNormal
+    }
+
+    startMoreCoins () {
+        this._speedAppearCoinInSecond = this._fastAppearSpeedCoins
+        this._isApperGoldenCoins = true
+    }
+
+    stopMoreCoins () {
+        this._speedAppearCoinInSecond = this._defaultAppearSpeedCoins
+        this._isApperGoldenCoins = false
     }
  }

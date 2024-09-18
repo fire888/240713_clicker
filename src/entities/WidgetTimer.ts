@@ -42,5 +42,6 @@ export class WidgetTimer {
 
     setValue (val: number) {
         this._bar.setValue(val)
+        this._val.show(Math.floor((1 - val) * 60) + '')
     }
 }

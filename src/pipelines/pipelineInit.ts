@@ -72,7 +72,7 @@ export const pipelineInit = async () => {
     studio.add(background.m) 
 
     systemCircles.init(root)
-    studio.add(systemCircles.group)
+    // studio.add(systemCircles.group)
     ticker.on(systemCircles.update.bind(systemCircles))
 
     await widgetTopCount.init(root)
