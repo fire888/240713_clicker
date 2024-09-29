@@ -47,18 +47,21 @@ export class Studio {
         this.pointer = new THREE.Vector2()
         this.interceptObjects = []
 
-        const onPointerMove = e => {
-            // calculate pointer position in normalized device coordinates
-            // (-1 to +1) for both components
+        // const onPointerMove = e => {
+        //     // calculate pointer position in normalized device coordinates
+        //     // (-1 to +1) for both components
+        //     this.pointer.x = e.clientX / window.innerWidth * 2 - 1
+        //     this.pointer.y = -e.clientY / window.innerHeight * 2 + 1
+        // }
+        // window.addEventListener('pointermove', onPointerMove)
+
+        const onPointerDown = e => {
             this.pointer.x = e.clientX / window.innerWidth * 2 - 1
             this.pointer.y = -e.clientY / window.innerHeight * 2 + 1
-        }
-        window.addEventListener('pointermove', onPointerMove)
 
-        const onPointerDown = () => {
             this.raycaster.setFromCamera(this.pointer, this.camera)
             const intersects = this.raycaster.intersectObjects(this.interceptObjects)
-            for ( let i = 0; i < intersects.length; i ++ ) {
+            for (let i = 0; i < intersects.length; ++i) {
                 if (
                     intersects[i].object.userData.userName && 
                     intersects[i].object.userData.userType && 
@@ -95,7 +98,7 @@ export class Studio {
         this.camera.updateProjectionMatrix()
         this.camera.updateMatrixWorld()
 
-        this.renderer.setSize(window.innerWidth, window.innerHeight)
+        this.renderer.setSize(w, h)
     }
 
     add (m) {
