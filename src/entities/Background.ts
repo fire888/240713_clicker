@@ -1,5 +1,6 @@
 import { Root } from "pipelines/pipelineInit";
 import * as THREE from "three";
+import { any } from "three/examples/jsm/nodes/Nodes";
 
 export class Background {
     type: string = 'back'
@@ -9,7 +10,11 @@ export class Background {
     }
 
     init (root: Root) {
-        const g = new THREE.PlaneGeometry(600, 600)
+
+        const w = 1
+        const h = 1
+        const g = new THREE.PlaneGeometry(w, h)
+
         const m = new THREE.MeshPhongMaterial({ 
             //color: 0xbbbbbb, 
             //map: root.assets.textureNoise, 
@@ -26,6 +31,11 @@ export class Background {
         })
 
         this.m = new THREE.Mesh(g, m)
+        this.m.scale.y = root.studio.frustumSize
+
+        root.windowResizer.on((r: any) => {
+            this.m.scale.x = r.w / r.h * root.studio.frustumSize
+        })
         
         //this.m.scale.set(30, 7, 30)
 

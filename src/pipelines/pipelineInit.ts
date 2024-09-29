@@ -9,6 +9,7 @@ import { WidgetGolden } from "entities/WidgetGolden"
 import { WidgetBomb } from "entities/WidgetBomb"
 import { WidgetAddEnergy } from "entities/WidgetAddEnergy"
 import { Background } from "entities/Background"
+import { WindowResizer } from "helpers/WindowResizer"
 import * as TWEEN from '@tweenjs/tween.js'
 
 export type Root = {
@@ -24,6 +25,7 @@ export type Root = {
     widgetBomb: WidgetBomb,
     widgetAddEnergy: WidgetAddEnergy,
     background: Background,
+    windowResizer: WindowResizer
 }
 
 export const pipelineInit = async () => {
@@ -40,6 +42,7 @@ export const pipelineInit = async () => {
         widgetBomb: new WidgetBomb(),
         widgetAddEnergy: new WidgetAddEnergy(),
         background: new Background(),
+        windowResizer: new WindowResizer(),
     }
 
     const {
@@ -60,7 +63,7 @@ export const pipelineInit = async () => {
 
     ticker.on(TWEEN.update)
 
-    studio.init()
+    studio.init(root)
     ticker.on(studio.render.bind(studio))
 
     loaderAssets.init()
@@ -103,6 +106,8 @@ export const pipelineInit = async () => {
     studio.add(widgetBomb.mesh)
     widgetBomb.mesh.position.x = 110
     widgetBomb.mesh.position.y = -200
+
+    root.windowResizer.resize()
 
     return root
 }

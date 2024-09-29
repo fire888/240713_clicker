@@ -5,19 +5,19 @@ export class Studio {
         this._cbsOnIntercepts = [] 
     }
 
-    init () {
+    init (root) {
         this.containerDom = document.getElementById('container-game')
 
         const w = window.innerWidth
         const h = window.innerHeight
-        this._frustumSize = 500
+        this.frustumSize = 500
         const aspect = w / h
 
         this.camera = new THREE.OrthographicCamera(
-            .5 * this._frustumSize * aspect  / - 2,
-            .5 * this._frustumSize * aspect / 2,
-            this._frustumSize / 2,
-            this._frustumSize / - 2,
+            .5 * this.frustumSize * aspect  / - 2,
+            .5 * this.frustumSize * aspect / 2,
+            this.frustumSize / 2,
+            this.frustumSize / - 2,
             1,
             5000
         );
@@ -78,23 +78,20 @@ export class Studio {
         }
         window.addEventListener('pointerdown', onPointerDown)
 
-        window.addEventListener( 'resize', this.onWindowResize.bind(this))
-        this.onWindowResize()
+        root.windowResizer.on(this.onWindowResize.bind(this))
     }
 
     render () {
         this.renderer.render(this.scene, this.camera)
     }
 
-    onWindowResize() {
-        const w = window.innerWidth
-        const h = window.innerHeight
+    onWindowResize({ w, h }) {
         const aspect = w / h
 
-        this.camera.left = -this._frustumSize * aspect / 2
-        this.camera.right = this._frustumSize * aspect / 2
-        this.camera.top = this._frustumSize / 2
-        this.camera.bottom = -this._frustumSize / 2
+        this.camera.left = -this.frustumSize * aspect / 2
+        this.camera.right = this.frustumSize * aspect / 2
+        this.camera.top = this.frustumSize / 2
+        this.camera.bottom = -this.frustumSize / 2
         this.camera.updateProjectionMatrix()
         this.camera.updateMatrixWorld()
 

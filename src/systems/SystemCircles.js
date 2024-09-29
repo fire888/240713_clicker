@@ -26,9 +26,9 @@ export class SystemCircles {
         this._speedYSlow = -1
         this._speedYCurrent = this._speedYNormal
 
-        this._yTop = 250
+        this._yTop = 290
         this._yTopGolden = -200
-        this._yBottom = -250
+        this._yBottom = -290
 
         this.items = {}
         for (let i = 0; i < 100; ++i) {
