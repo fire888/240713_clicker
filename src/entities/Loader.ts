@@ -7,6 +7,8 @@ import numbers from "../assets/numbers.jpg"
 import iconsMap from "../assets/icons_map.jpg"
 import iconsMask from "../assets/icons_msk.jpg"
 import popupMapMask from "../assets/popupmapmask.jpg"
+import freezeMapMask from "../assets/freezemask.png"
+import circleMapMask from "../assets/circleMask.png"
 
 
 export type Assets = {
@@ -18,6 +20,8 @@ export type Assets = {
     iconsMap: any,
     popupMapMask: any,
     coinModelRed: any,
+    freezeMapMask: any,
+    circleMapMask: any
 }
 
 export class LoaderAssets {
@@ -33,13 +37,15 @@ export class LoaderAssets {
 
     loadAssets (): Promise<Assets> {
         const assets: Assets = {
-            coinModel: { src: coinModel, result: null },
-            coinModelRed: { src: coinModeRed, result: null },
-            textureNoise: { src: noise, result: null },
-            textureNumbersMask: { src: numbers, result: null },
-            iconsMask: { src: iconsMask, result: null },
-            iconsMap: { src: iconsMap, result: null },
-            popupMapMask: { src: popupMapMask, result: null },
+            coinModel: null,
+            coinModelRed: null,
+            textureNoise: null,
+            textureNumbersMask: null,
+            iconsMask: null,
+            iconsMap: null,
+            popupMapMask: null,
+            freezeMapMask: null,
+            circleMapMask: null,
         }
 
         return new Promise(resolve => {
@@ -69,6 +75,8 @@ export class LoaderAssets {
                 load('iconsMap', iconsMap), 
                 load('popupMapMask', popupMapMask),
                 load('coinModelRed', coinModeRed),
+                load('freezeMapMask', freezeMapMask),
+                load('circleMapMask', circleMapMask),
             ]).then(() => {
                 resolve(assets)
             }, () => {

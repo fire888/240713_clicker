@@ -19,6 +19,8 @@ export const pipelinePlay = async (root: Root) => {
         widgetAddEnergy,
         widgetBomb,
         ticker,
+        background,
+        topEffect,
     } = root
 
     const valWinCoin: number = 10
@@ -146,23 +148,29 @@ export const pipelinePlay = async (root: Root) => {
         if (currentCoinsValue < priceFreeze) {
             return;
         }
+        background.setFreezeMode()
+        topEffect.setFreezeMode()
         currentCoinsValue -= priceFreeze
         widgetTopCount.setValue(currentCoinsValue)
         
         systemCircles.makeSpeedSlow()
         await pause(3000)
         systemCircles.makeSpeedNormal()
+        background.removeFreezeMode()
+        topEffect.removeFreezeMode()
     }
 
     const clickGolden = async () => {
         if (currentCoinsValue < priceGolden) {
             return;
         }
+        topEffect.setYellowMode()
         currentCoinsValue -= priceGolden
         widgetTopCount.setValue(currentCoinsValue)
         systemCircles.startMoreCoins()
         await pause(5000)
         systemCircles.stopMoreCoins()
+        topEffect.removeYellowMode()
     }
 
 
@@ -171,10 +179,13 @@ export const pipelinePlay = async (root: Root) => {
             return;
         }
         currentCoinsValue -= priceBomb
+        topEffect.setRedMode()
         widgetTopCount.setValue(currentCoinsValue)
         for (let key in systemCircles.items) {
             clickCoin(key)
         }
+        await pause(1500)
+        topEffect.removeRedMode()
     }
 
 

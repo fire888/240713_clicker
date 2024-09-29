@@ -40,7 +40,7 @@ export class CoinRed {
         this.m.rotation.x = Math.PI / 2
 
         this.collision = new CoinCollision()
-        //this.collision.m.visible = false
+        this.collision.m.visible = false
         this.collision.m.userData.userName = this.id
         this.collision.m.userData.userType = CoinRed.type
     }

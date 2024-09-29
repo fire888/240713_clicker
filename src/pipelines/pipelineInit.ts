@@ -9,7 +9,7 @@ import { WidgetGolden } from "entities/WidgetGolden"
 import { WidgetBomb } from "entities/WidgetBomb"
 import { WidgetAddEnergy } from "entities/WidgetAddEnergy"
 import { Background } from "entities/Background"
-import { WindowResizer } from "helpers/WindowResizer"
+import { TopEffect } from "entities/TopEffect"
 import * as TWEEN from '@tweenjs/tween.js'
 
 export type Root = {
@@ -25,6 +25,7 @@ export type Root = {
     widgetBomb: WidgetBomb,
     widgetAddEnergy: WidgetAddEnergy,
     background: Background,
+    topEffect: TopEffect,
     //windowResizer: WindowResizer
 }
 
@@ -42,6 +43,7 @@ export const pipelineInit = async () => {
         widgetBomb: new WidgetBomb(),
         widgetAddEnergy: new WidgetAddEnergy(),
         background: new Background(),
+        topEffect: new TopEffect(),
         //windowResizer: new WindowResizer(),
     }
 
@@ -57,6 +59,7 @@ export const pipelineInit = async () => {
         widgetBomb,
         widgetAddEnergy,
         background,
+        topEffect
     } = root
 
     ticker.start()
@@ -71,8 +74,10 @@ export const pipelineInit = async () => {
     root.assets = assetsResult
 
     background.init(root)
-    background.m.position.z = -3000
     studio.add(background.m) 
+
+    topEffect.init(root)
+    studio.add(topEffect.m)
 
     systemCircles.init(root)
     // studio.add(systemCircles.group)
@@ -86,7 +91,7 @@ export const pipelineInit = async () => {
 
     await widgetAddEnergy.init(root)
     studio.add(widgetAddEnergy.mesh)
-    
+
     await widgetFreeze.init(root)
     studio.add(widgetFreeze.mesh)
 

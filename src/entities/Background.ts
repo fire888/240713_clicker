@@ -17,7 +17,7 @@ export class Background {
         const m = new THREE.MeshPhongMaterial({ 
             //color: 0xbbbbbb, 
             //map: root.assets.textureNoise, 
-            color: 0x222222,
+            color: 0x220022,
             //emissive: 0x7795d3,
             specular: 0xffffff,
             shininess: 100,
@@ -32,17 +32,19 @@ export class Background {
         this.m = new THREE.Mesh(g, m)
         this.m.scale.y = root.studio.frustumSize
 
+        this.m.position.z = -3000
         root.studio.onResize((r: any) => {
             this.m.scale.x = r.ratio * r.frustumSize
         })
-        
-        //this.m.scale.set(30, 7, 30)
-
-        //this.m.rotation.x = Math.PI / 2
     }
 
-    update () {
-        //this.m.rotation.x += this._xRotSpeed
-        //this.m.rotation.z += this._zRotSpeed
+    setFreezeMode () {
+        // @ts-ignore: Unreachable code error
+        this.m.material.color.set(0x000088)
+    }
+
+    removeFreezeMode() {
+        // @ts-ignore: Unreachable code error
+        this.m.material.color.set(0x220022)
     }
 }
