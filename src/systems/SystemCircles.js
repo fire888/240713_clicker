@@ -26,15 +26,26 @@ export class SystemCircles {
         this._speedYSlow = -1
         this._speedYCurrent = this._speedYNormal
 
+        // const b = new THREE.Mesh(
+        //     new THREE.BoxGeometry(5, 5, 5),
+        //     new THREE.MeshBasicMaterial({color: 0x00ffff})
+        // ) 
+        // root.studio.add(b)
+         
         this._yTop = 290
         this._yTopGolden = -200
         this._yBottom = -290
+        this._widthAppear = root.studio.ratio * root.studio.frustumSize - 60
+        root.studio.onResize((r) => {
+            //b.position.x = this._widthAppear / 2
+            this._widthAppear = r.ratio * r.frustumSize - 60
+        })
 
         this.items = {}
         for (let i = 0; i < 100; ++i) {
             const coin = new Coin(root)
             coin.setPosition(
-                (Math.random() - .5) * 500,
+                (Math.random() - .5) * this._widthAppear,
                 this._yTop,
                 -i * 1,
             )
@@ -44,7 +55,7 @@ export class SystemCircles {
 
         const coinRed = new CoinRed(root)
         coinRed.setPosition(
-            (Math.random() - .5) * 500,
+            (Math.random() - .5) * this._widthAppear,
             this._yTopGolden,
             1,
         )
@@ -131,7 +142,7 @@ export class SystemCircles {
 
     resetItem (id) {
         this.items[id].setPositionY(this._yTop)
-        this.items[id].setPositionX((Math.random() - .5) * 500)
+        this.items[id].setPositionX((Math.random() - .5) * this._widthAppear)
         this.items[id].state = COIN_STATES.readyToFall
         this.items[id].m.scale.set(30, 30 * 0.1, 30)
 

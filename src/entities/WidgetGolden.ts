@@ -45,10 +45,16 @@ export class WidgetGolden {
             })
         )
         this.clickArea.position.z = 5
-        this.clickArea.position.y = 15
+        this.clickArea.position.x = 10
+        this.clickArea.position.y = 30
         this.mesh.add(this.clickArea)
         this.clickArea.userData.userType = 'uiClick' 
         this.clickArea.userData.userName = 'uiClickGolden' 
+
+        this.mesh.position.y = -230
+        root.studio.onResize((r: any) => {
+            this.mesh.position.x = r.rightX - 80
+        })
     }
 
     setValue (val: number) {

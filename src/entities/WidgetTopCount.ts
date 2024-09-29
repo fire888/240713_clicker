@@ -27,6 +27,8 @@ export class WidgetTopCount {
         this.mesh.add(this._widgetNumbers.mesh)
         this._widgetNumbers.mesh.scale.set(.6, .6, .6)
         this._widgetNumbers.show('12340986,+')
+
+        this.mesh.position.y = 220
     }
 
     setValue (val: number) {

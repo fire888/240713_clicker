@@ -63,5 +63,11 @@ export class WidgetAddEnergy {
         this.mesh.add(this.clickArea)
         this.clickArea.userData.userType = 'uiClick' 
         this.clickArea.userData.userName = 'uiClickAddEnergy' 
+
+        this.mesh.position.x = root.studio.leftX + 50
+        this.mesh.position.y = -180
+        root.studio.onResize((r: any) => {
+            this.mesh.position.x = root.studio.leftX + 50
+        })
     }
 }

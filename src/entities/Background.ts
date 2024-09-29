@@ -1,6 +1,5 @@
 import { Root } from "pipelines/pipelineInit";
 import * as THREE from "three";
-import { any } from "three/examples/jsm/nodes/Nodes";
 
 export class Background {
     type: string = 'back'
@@ -33,8 +32,8 @@ export class Background {
         this.m = new THREE.Mesh(g, m)
         this.m.scale.y = root.studio.frustumSize
 
-        root.windowResizer.on((r: any) => {
-            this.m.scale.x = r.w / r.h * root.studio.frustumSize
+        root.studio.onResize((r: any) => {
+            this.m.scale.x = r.ratio * r.frustumSize
         })
         
         //this.m.scale.set(30, 7, 30)

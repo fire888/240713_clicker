@@ -6,7 +6,6 @@ import { UiIcon } from './UiIcon'
 
 
 
-
 export class WidgetTimer {
     mesh: THREE.Object3D
     _bar: UiBar
@@ -38,6 +37,11 @@ export class WidgetTimer {
         this._val.mesh.position.x = 43
         this._val.mesh.scale.set(.6, .6, .6)
         this.mesh.add(this._val.mesh)
+
+        this.mesh.position.y = -230
+        root.studio.onResize((r: any) => {
+            this.mesh.position.x = r.leftX + 2
+        })
     }
 
     setValue (val: number) {

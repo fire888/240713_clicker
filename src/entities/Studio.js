@@ -2,6 +2,16 @@ import * as THREE from 'three'
 
 export class Studio {
     constructor () {
+        this._arrFunctionsResize = []
+        this.w = window.innerWidth
+        this.h = window.innerHeight
+        this.ratio = this.w / this.h
+        this.frustumSize = 500
+        this.leftX = -.5 * this.frustumSize * this.ratio
+        this.rightX = this.leftX
+        this.topY = .5 * this.frustumSize 
+        this.bottomY = -.5 * this.frustumSize 
+
         this._cbsOnIntercepts = [] 
     }
 
@@ -10,7 +20,6 @@ export class Studio {
 
         const w = window.innerWidth
         const h = window.innerHeight
-        this.frustumSize = 500
         const aspect = w / h
 
         this.camera = new THREE.OrthographicCamera(
@@ -78,14 +87,16 @@ export class Studio {
         }
         window.addEventListener('pointerdown', onPointerDown)
 
-        root.windowResizer.on(this.onWindowResize.bind(this))
+        window.addEventListener('resize', this.onWindowResize.bind(this))
     }
 
     render () {
         this.renderer.render(this.scene, this.camera)
     }
 
-    onWindowResize({ w, h }) {
+    onWindowResize() {
+        const w = window.innerWidth
+        const h = window.innerHeight
         const aspect = w / h
 
         this.camera.left = -this.frustumSize * aspect / 2
@@ -96,6 +107,16 @@ export class Studio {
         this.camera.updateMatrixWorld()
 
         this.renderer.setSize(w, h)
+
+        this.ratio = w / h
+        this.leftX = -.5 * this.frustumSize * this.ratio
+        this.rightX = -this.leftX
+        this.topY = .5 * this.frustumSize
+        this.bottomY = -.5 * this.frustumSize
+
+        for (let i = 0; i < this._arrFunctionsResize.length; ++i) {
+            this._arrFunctionsResize[i](this)
+        }
     }
 
     add (m) {
@@ -117,5 +138,12 @@ export class Studio {
     setCbOnInterseptTap (cb) {
         this._cbsOnIntercepts.push(cb)
         return () => this._cbsOnIntercepts = this._cbsOnIntercepts.filter(f => f !== cb)
+    }
+
+    onResize (cb) {
+        this._arrFunctionsResize.push(cb)
+        return () => {
+            this._arrFunctionsResize = this._arrFunctionsResize.filter(f => f !== cb)
+        }
     }
 }
