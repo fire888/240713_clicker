@@ -21,6 +21,7 @@ export const pipelinePlay = async (root: Root) => {
         ticker,
         background,
         topEffect,
+        bomb,
     } = root
 
     const valWinCoin: number = 10
@@ -179,6 +180,13 @@ export const pipelinePlay = async (root: Root) => {
             return;
         }
         currentCoinsValue -= priceBomb
+        bomb.animateFly([
+            widgetBomb.mesh.position.x,
+            widgetBomb.mesh.position.y,
+            0,
+        ])
+        await pause(1000)
+
         topEffect.setRedMode()
         widgetTopCount.setValue(currentCoinsValue)
         for (let key in systemCircles.items) {

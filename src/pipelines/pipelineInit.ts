@@ -10,6 +10,7 @@ import { WidgetBomb } from "entities/WidgetBomb"
 import { WidgetAddEnergy } from "entities/WidgetAddEnergy"
 import { Background } from "entities/Background"
 import { TopEffect } from "entities/TopEffect"
+import { Bomb } from "entities/Bomb"
 import * as TWEEN from '@tweenjs/tween.js'
 
 export type Root = {
@@ -26,6 +27,7 @@ export type Root = {
     widgetAddEnergy: WidgetAddEnergy,
     background: Background,
     topEffect: TopEffect,
+    bomb: Bomb,
     //windowResizer: WindowResizer
 }
 
@@ -44,6 +46,7 @@ export const pipelineInit = async () => {
         widgetAddEnergy: new WidgetAddEnergy(),
         background: new Background(),
         topEffect: new TopEffect(),
+        bomb: new Bomb(),
         //windowResizer: new WindowResizer(),
     }
 
@@ -59,7 +62,8 @@ export const pipelineInit = async () => {
         widgetBomb,
         widgetAddEnergy,
         background,
-        topEffect
+        topEffect,
+        bomb,
     } = root
 
     ticker.start()
@@ -101,6 +105,8 @@ export const pipelineInit = async () => {
     await widgetBomb.init(root)
     studio.add(widgetBomb.mesh)
 
+    bomb.init(root)
+    studio.add(bomb.m)
 
     studio.onWindowResize()
 
